@@ -1,0 +1,32 @@
+# Windows System Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# OS X System Files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Local Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vercel Cache & Local Links
+.vercel/
+
+# Dependencies
+node_modules/
+dist/
+out/

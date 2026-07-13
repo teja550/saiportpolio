@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Nagaram Sai Tejachary | Python Full Stack Developer & Data Analyst Portfolio</title>
+  <meta name="description" content="Professional portfolio of Nagaram Sai Tejachary, a Python Full Stack Developer and Data Analyst. Specializing in Python, SQL, Web Development, Power BI, and Machine Learning.">
+  <meta name="keywords" content="Nagaram Sai Tejachary, Python Developer, Full Stack Developer, Data Analyst, Machine Learning, Power BI, Portfolio, B.Tech AI & ML, Kadapa, Andhra Pradesh">
+  <meta name="author" content="Nagaram Sai Tejachary">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nagaramsaiteja.github.io/">
+  <meta property="og:title" content="Nagaram Sai Tejachary | Python Full Stack Developer & Data Analyst">
+  <meta property="og:description" content="Professional portfolio showcasing Python, SQL, Web Development, Data Analytics, and AI/ML projects. Check out dashboards, full stack apps, and certifications.">
+  <meta property="og:image" content="https://nagaramsaiteja.github.io/assets/images/profile.jpg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://nagaramsaiteja.github.io/">
+  <meta property="twitter:title" content="Nagaram Sai Tejachary | Python Full Stack Developer & Data Analyst">
+  <meta property="twitter:description" content="Professional portfolio showcasing Python, SQL, Web Development, Data Analytics, and AI/ML projects.">
+  <meta property="twitter:image" content="https://nagaramsaiteja.github.io/assets/images/profile.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Schema.org JSON-LD Structrued Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Nagaram Sai Tejachary",
+    "jobTitle": "Python Full Stack Developer & Data Analyst",
+    "url": "https://nagaramsaiteja.github.io/",
+    "image": "https://nagaramsaiteja.github.io/assets/images/profile.jpg",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Kadapa",
+      "addressRegion": "Andhra Pradesh",
+      "addressCountry": "IN"
+    },
+    "email": "nagaramsaiteja57@gmail.com",
+    "telephone": "+91 7075330927",
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "Siddhartha Institute of Science and Technology"
+    },
+    "sameAs": [
+      "https://github.com/nagaramsaiteja",
+      "https://linkedin.com/in/nsai-teja"
+    ]
+  }
+  </script>
+</head>
+<body class="dark-theme">
+
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress-container">
+    <div class="scroll-progress-bar" id="scrollProgress"></div>
+  </div>
+
+  <!-- Custom Cursor -->
+  <div class="custom-cursor" id="customCursor"></div>
+  <div class="custom-cursor-dot" id="customCursorDot"></div>
+
+  <!-- Ambient Particle Background -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="loader-content">
+      <div class="loader-logo">NST</div>
+      <div class="loader-bar-container">
+        <div class="loader-bar"></div>
+      </div>
+      <div class="loader-text">Loading Excellence...</div>
+    </div>
+  </div>
+
+  <!-- Sticky Navbar -->
+  <nav class="navbar navbar-expand-lg sticky-top main-navbar">
+    <div class="container">
+      <a class="navbar-brand logo-brand" href="#home">
+        <span class="logo-text-glow">NST</span>
+      </a>
+      <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="toggler-icon-bar"></span>
+        <span class="toggler-icon-bar"></span>
+        <span class="toggler-icon-bar"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto nav-links-list">
+          <li class="nav-item">
+            <a class="nav-link active" href="#home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#skills">Skills</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#projects">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#certificates">Certificates</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#education">Education</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+        </ul>
+        <!-- Dark/Light Mode Switcher -->
+        <div class="theme-toggle-container ms-lg-4">
+          <button class="btn theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle dark/light theme">
+            <i class="fa-solid fa-moon moon-icon"></i>
+            <i class="fa-solid fa-sun sun-icon"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HOME / HERO SECTION -->
+  <header id="home" class="hero-section d-flex align-items-center position-relative overflow-hidden">
+    <div class="hero-glow-blob-1"></div>
+    <div class="hero-glow-blob-2"></div>
+    <div class="container hero-container position-relative z-2">
+      <div class="row align-items-center gy-5">
+        <!-- Left Hero Content -->
+        <div class="col-lg-7 text-start hero-text-col reveal-fade-up">
+          <div class="hero-tag mb-3">
+            <span class="badge badge-glow py-2 px-3"><i class="fa-solid fa-circle-dot animate-pulse me-2"></i>Available for Opportunities</span>
+          </div>
+          <h2 class="hero-greeting text-gradient-primary fw-medium mb-1">Hi, I'm</h2>
+          <h1 class="hero-name display-4 fw-extrabold mb-3">Nagaram Sai Tejachary</h1>
+          
+          <!-- Typing Text Container -->
+          <div class="hero-typing-wrap mb-4">
+            <span class="static-txt">I'm a </span>
+            <span class="typing-txt text-gradient-accent fw-bold" id="typingText"></span>
+          </div>
+          
+          <p class="hero-description lead mb-5">
+            Detail-oriented Computer Science (AI & ML) graduate passionate about Python Development, Full Stack Web Development, SQL, Data Analytics, and Machine Learning. I enjoy building responsive web applications and solving real-world problems using data-driven solutions.
+          </p>
+          
+          <!-- Call To Action Buttons -->
+          <div class="hero-ctas d-flex flex-wrap gap-3 mb-5">
+            <a href="assets/documents/resume.pdf" download="Nagaram_Sai_Tejachary_Resume.pdf" class="btn btn-premium btn-primary-glow px-4 py-3 text-white">
+              <i class="fa-solid fa-cloud-arrow-down me-2"></i>Download Resume
+            </a>
+            <a href="#projects" class="btn btn-premium btn-outline-glass px-4 py-3">
+              <i class="fa-solid fa-folder-open me-2"></i>View Projects
+            </a>
+            <a href="#contact" class="btn btn-premium btn-gradient px-4 py-3">
+              <i class="fa-solid fa-paper-plane me-2"></i>Hire Me
+            </a>
+          </div>
+          
+          <!-- Social Icons -->
+          <div class="hero-socials d-flex align-items-center gap-3">
+            <span class="social-title me-2 text-muted uppercase">Connect:</span>
+            <a href="https://linkedin.com/in/nsai-teja" target="_blank" rel="noopener" class="social-circle-link" aria-label="LinkedIn Profile">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="https://github.com/nagaramsaiteja" target="_blank" rel="noopener" class="social-circle-link" aria-label="GitHub Profile">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="mailto:nagaramsaiteja57@gmail.com" class="social-circle-link" aria-label="Email Me">
+              <i class="fa-solid fa-envelope"></i>
+            </a>
+            <a href="tel:+917075330927" class="social-circle-link" aria-label="Call Me">
+              <i class="fa-solid fa-phone"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Right Hero Image with Floating Shapes -->
+        <div class="col-lg-5 position-relative hero-img-col d-flex justify-content-center align-items-center reveal-fade-up">
+          <div class="profile-image-wrapper pointer-glow">
+            <!-- Glass Overlay Card -->
+            <div class="profile-img-card">
+              <img src="assets/images/profile.jpg" alt="Nagaram Sai Tejachary Profile Image" class="profile-image img-fluid lazyload" loading="lazy">
+            </div>
+            <!-- Floating Tech Badges / Shapes -->
+            <div class="floating-shape shape-1 d-flex align-items-center justify-content-center">
+              <i class="fa-brands fa-python python-color"></i>
+            </div>
+            <div class="floating-shape shape-2 d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-database sql-color"></i>
+            </div>
+            <div class="floating-shape shape-3 d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-chart-column data-color"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ABOUT ME SECTION -->
+  <section id="about" class="about-section py-6 position-relative">
+    <div class="container position-relative z-2">
+      <div class="section-header text-center mb-6 reveal-fade-up">
+        <span class="section-subtitle text-gradient-primary">Discover More</span>
+        <h2 class="section-title">About Me</h2>
+        <div class="section-title-bar mx-auto"></div>
+      </div>
+      
+      <div class="row align-items-center gy-5">
+        <!-- About Left Layout: Glass Grid of Details -->
+        <div class="col-lg-5 reveal-fade-up">
+          <div class="row g-4">
+            <div class="col-6">
+              <div class="about-info-card pointer-glow text-center p-4">
+                <div class="info-card-icon mb-3 text-primary-glow">
+                  <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <h3 class="info-card-title h6 mb-1 text-muted">Full Name</h3>
+                <p class="info-card-desc fw-semibold mb-0">N. Sai Tejachary</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="about-info-card pointer-glow text-center p-4">
+                <div class="info-card-icon mb-3 text-secondary-glow">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <h3 class="info-card-title h6 mb-1 text-muted">Location</h3>
+                <p class="info-card-desc fw-semibold mb-0">Kadapa, AP</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="about-info-card pointer-glow text-center p-4">
+                <div class="info-card-icon mb-3 text-accent-glow">
+                  <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <h3 class="info-card-title h6 mb-1 text-muted">Education</h3>
+                <p class="info-card-desc fw-semibold mb-0">B.Tech AI & ML</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="about-info-card pointer-glow text-center p-4">
+                <div class="info-card-icon mb-3 text-gradient-pink">
+                  <i class="fa-solid fa-star"></i>
+                </div>
+                <h3 class="info-card-title h6 mb-1 text-muted">CGPA</h3>
+                <p class="info-card-desc fw-semibold mb-0">7.45 / 10</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- About Right Narrative Text -->
+        <div class="col-lg-7 reveal-fade-up">
+          <div class="about-narrative-card p-5">
+            <h3 class="narrative-heading mb-4 text-gradient-primary">Engineering Solutions Through Code & Insights</h3>
+            <p class="narrative-text mb-4">
+              I am a passionate computer science undergraduate specializing in **Artificial Intelligence and Machine Learning** at Siddhartha Institute of Science and Technology. Throughout my studies, my curiosity driven approach directed me to two key domains: **Python Full Stack Web Development** and **Data Analytics**.
+            </p>
+            <p class="narrative-text mb-4">
+              I love engineering backend logic with Python and SQL, structuring frontends using JavaScript and modern styling frameworks, and applying computational techniques to extract hidden insights from complex datasets. My objective is to bridge the gap between web architecture and data analysis to solve real business challenges.
+            </p>
+            
+            <div class="about-career-goal p-4 mt-4 glass-inset-accent">
+              <h4 class="h6 text-gradient-accent fw-bold mb-2"><i class="fa-solid fa-bullseye me-2"></i>Career Goal</h4>
+              <p class="mb-0">
+                To become a highly skilled Python Full Stack Developer, contributing to innovative, high-impact software solutions while continuously embracing and mastering modern, cutting-edge technologies.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS SECTION -->
+  <section id="skills" class="skills-section py-6 bg-glass-opacity position-relative">
+    <div class="container position-relative z-2">
+      <div class="section-header text-center mb-6 reveal-fade-up">
+        <span class="section-subtitle text-gradient-accent">What I Do Best</span>
+        <h2 class="section-title">My Skillset</h2>
+        <div class="section-title-bar mx-auto"></div>
+      </div>
+      
+      <!-- Skill Categories Tab-like Grid -->
+      <div class="row g-4 justify-content-center reveal-fade-up">
+        
+        <!-- Programming -->
+        <div class="col-md-6 col-lg-4">
+          <div class="skill-category-card pointer-glow p-4">
+            <h3 class="category-title h5 mb-4 text-gradient-primary"><i class="fa-solid fa-code me-2"></i>Programming</h3>
+            <div class="skills-list">
+              <!-- Skill Item -->
+              <div class="skill-progress-item mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="skill-name">Python</span>
+                  <span class="skill-percentage">85%</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 0%;" data-progress="85"></div>
+                </div>
+              </div>
+              <!-- Skill Item -->
+              <div class="skill-progress-item mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="skill-name">SQL</span>
+                  <span class="skill-80">80%</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 0%;" data-progress="80"></div>
+                </div>
+              </div>
+              <!-- Skill Item -->
+              <div class="skill-progress-item mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="skill-name">JavaScript</span>
+                  <span class="skill-percentage">75%</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 0%;" data-progress="75"></div>
+                </div>
+              </div>
+              <!-- Skill Item -->
+              <div class="skill-progress-item mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="skill-name">HTML5 / CSS3</span>
+                  <span class="skill-percentage">85%</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 0%;" data-progress="85"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data Analytics -->
+        <div class="col-md-6 col-lg-4">
+          <div class="skill-category-card pointer-glow p-4">
+            <h3 class="category-title h5 mb-4 text-gradient-secondary"><i class="fa-solid fa-chart-line me-2"></i>Data Analytics</h3>
+            <div class="skills-list">
+              <!-- Skill Item -->
+              <div class="skill-progress-item mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="skill-name">Excel (Advanced)</span>
+                  <span class="skill-percentage">80%</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 0%;" data-progress="80"></div>
+                </div>
+              </div>
+              <!-- Skill Item -->
+              <div class="skill-progress-item mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="skill-name">Power BI</span>
+                  <span class="skill-percentage">75%</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 0%;" data-progress="75"></div>
+                </div>
+              </div>
+              <!-- Skill Item -->
+              <div class="skill-progress-item mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="skill-name">Pandas / NumPy</span>
+                  <span class="skill-percentage">80%</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 0%;" data-progress="80"></div>
+                </div>
+              </div>
+              <!-- Skill Item -->
+              <div class="skill-progress-item mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="skill-name">Matplotlib / Seaborn</span>
+                  <span class="skill-percentage">85%</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 0%;" data-progress="85"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Web Development & Databases -->
+        <div class="col-md-6 col-lg-4">
+          <div class="skill-category-card pointer-glow p-4">
+            <h3 class="category-title h5 mb-4 text-gradient-accent"><i class="fa-solid fa-laptop-code me-2"></i>Web & Database</h3>
+            <div class="skills-list">
+              <!-- Skill Item -->
+              <div class="skill-progress-item mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="skill-name">Bootstrap 5</span>
+                  <span class="skill-percentage">85%</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 0%;" data-progress="85"></div>
+                </div>
+              </div>
+              <!-- Skill Item -->
+              <div class="skill-progress-item mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="skill-name">Responsive Design</span>
+                  <span class="skill-percentage">90%</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 0%;" data-progress="90"></div>
+                </div>
+              </div>
+              <!-- Skill Item -->
+              <div class="skill-progress-item mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="skill-name">DOM Manipulation</span>
+                  <span class="skill-percentage">80%</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 0%;" data-progress="80"></div>
+                </div>
+              </div>
+              <!-- Skill Item -->
+              <div class="skill-progress-item mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="skill-name">Relational Databases (SQL)</span>
+                  <span class="skill-percentage">80%</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 0%;" data-progress="80"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Developer Tools Row -->
+      <div class="row mt-5 justify-content-center reveal-fade-up">
+        <div class="col-lg-10">
+          <div class="tools-bar-card pointer-glow p-4 d-flex flex-wrap align-items-center justify-content-around gap-4 text-center">
+            <span class="tools-title text-uppercase fw-bold text-muted mb-lg-0"><i class="fa-solid fa-screwdriver-wrench me-2 text-primary-glow"></i>Workflow Tools:</span>
+            <div class="tool-badge-item"><i class="fa-solid fa-code me-1 text-primary"></i>VS Code</div>
+            <div class="tool-badge-item"><i class="fa-brands fa-git-alt me-1 text-danger"></i>Git</div>
+            <div class="tool-badge-item"><i class="fa-brands fa-github me-1 text-dark-light"></i>GitHub</div>
+            <div class="tool-badge-item"><i class="fa-solid fa-book-open me-1 text-warning"></i>Jupyter Notebook</div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- PROJECTS SECTION -->
+  <section id="projects" class="projects-section py-6 position-relative">
+    <div class="container position-relative z-2">
+      <div class="section-header text-center mb-6 reveal-fade-up">
+        <span class="section-subtitle text-gradient-primary">Featured Work</span>
+        <h2 class="section-title">My Projects</h2>
+        <div class="section-title-bar mx-auto"></div>
+      </div>
+      
+      <div class="row g-4 justify-content-center">
+        
+        <!-- Project 1: Vision Transformer -->
+        <div class="col-md-6 col-lg-4 reveal-fade-up">
+          <div class="project-card pointer-glow" data-tilt>
+            <div class="project-img-wrapper">
+              <img src="assets/images/project-vit.jpg" alt="Plant Disease Detection ViT Project mockup" class="project-img lazyload" loading="lazy">
+              <div class="project-overlay d-flex align-items-center justify-content-center gap-3">
+                <a href="https://github.com/nagaramsaiteja" target="_blank" rel="noopener" class="btn btn-circle btn-light-glow" aria-label="GitHub Repo"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="btn btn-circle btn-light-glow" aria-label="Live Demo"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+              </div>
+            </div>
+            <div class="project-content p-4">
+              <span class="project-tag mb-2">Deep Learning & Vision</span>
+              <h3 class="project-card-title h5 mb-3">Plant Disease Detection (ViT)</h3>
+              <p class="project-description mb-4">
+                Developed a deep learning model using Vision Transformers (ViT) for plant disease detection. Performed image preprocessing, augmentation, and classification using TensorFlow and Python.
+              </p>
+              <div class="project-tech-badges mb-4">
+                <span class="badge badge-tech">Python</span>
+                <span class="badge badge-tech">TensorFlow</span>
+                <span class="badge badge-tech">Deep Learning</span>
+                <span class="badge badge-tech">Computer Vision</span>
+                <span class="badge badge-tech">ViT</span>
+              </div>
+              <div class="d-flex gap-2">
+                <a href="https://github.com/nagaramsaiteja" target="_blank" rel="noopener" class="btn btn-sm btn-outline-glass w-50 py-2"><i class="fa-brands fa-github me-1"></i>GitHub</a>
+                <a href="#" class="btn btn-sm btn-premium btn-primary-glow w-50 py-2"><i class="fa-solid fa-eye me-1"></i>Live Demo</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: Sales Dashboard -->
+        <div class="col-md-6 col-lg-4 reveal-fade-up">
+          <div class="project-card pointer-glow" data-tilt>
+            <div class="project-img-wrapper">
+              <img src="assets/images/project-sales.jpg" alt="Sales Data Dashboard Power BI Project mockup" class="project-img lazyload" loading="lazy">
+              <div class="project-overlay d-flex align-items-center justify-content-center gap-3">
+                <a href="https://github.com/nagaramsaiteja" target="_blank" rel="noopener" class="btn btn-circle btn-light-glow" aria-label="GitHub Repo"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="btn btn-circle btn-light-glow" aria-label="Live Demo"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+              </div>
+            </div>
+            <div class="project-content p-4">
+              <span class="project-tag mb-2">Business Intelligence</span>
+              <h3 class="project-card-title h5 mb-3">Sales Data Analysis Dashboard</h3>
+              <p class="project-description mb-4">
+                Built an interactive dashboard using Excel and Power BI to analyze monthly sales trends, customer behavior, and product performance. Implemented complex data transformations.
+              </p>
+              <div class="project-tech-badges mb-4">
+                <span class="badge badge-tech">Excel</span>
+                <span class="badge badge-tech">Power BI</span>
+                <span class="badge badge-tech">Pivot Tables</span>
+                <span class="badge badge-tech">Power Query</span>
+              </div>
+              <div class="d-flex gap-2">
+                <a href="https://github.com/nagaramsaiteja" target="_blank" rel="noopener" class="btn btn-sm btn-outline-glass w-50 py-2"><i class="fa-brands fa-github me-1"></i>GitHub</a>
+                <a href="#" class="btn btn-sm btn-premium btn-primary-glow w-50 py-2"><i class="fa-solid fa-eye me-1"></i>Live Demo</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: Student Performance -->
+        <div class="col-md-6 col-lg-4 reveal-fade-up">
+          <div class="project-card pointer-glow" data-tilt>
+            <div class="project-img-wrapper">
+              <img src="assets/images/project-student.jpg" alt="Student Performance Analytics Project mockup" class="project-img lazyload" loading="lazy">
+              <div class="project-overlay d-flex align-items-center justify-content-center gap-3">
+                <a href="https://github.com/nagaramsaiteja" target="_blank" rel="noopener" class="btn btn-circle btn-light-glow" aria-label="GitHub Repo"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="btn btn-circle btn-light-glow" aria-label="Live Demo"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+              </div>
+            </div>
+            <div class="project-content p-4">
+              <span class="project-tag mb-2">Data Wrangling & Analytics</span>
+              <h3 class="project-card-title h5 mb-3">Student Performance Analysis</h3>
+              <p class="project-description mb-4">
+                Performed data cleaning and exploratory data visualization using Python, Pandas, and Matplotlib to identify school academic performance trends, student behaviors, and metrics.
+              </p>
+              <div class="project-tech-badges mb-4">
+                <span class="badge badge-tech">Python</span>
+                <span class="badge badge-tech">Pandas</span>
+                <span class="badge badge-tech">Matplotlib</span>
+                <span class="badge badge-tech">Jupyter</span>
+              </div>
+              <div class="d-flex gap-2">
+                <a href="https://github.com/nagaramsaiteja" target="_blank" rel="noopener" class="btn btn-sm btn-outline-glass w-50 py-2"><i class="fa-brands fa-github me-1"></i>GitHub</a>
+                <a href="#" class="btn btn-sm btn-premium btn-primary-glow w-50 py-2"><i class="fa-solid fa-eye me-1"></i>Live Demo</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATES & EDUCATION SECTION -->
+  <section class="cert-edu-section py-6 bg-glass-opacity position-relative">
+    <div class="container position-relative z-2">
+      
+      <div class="row gy-5">
+        <!-- Left: Certificates Timeline -->
+        <div class="col-lg-6 reveal-fade-up" id="certificates">
+          <div class="section-header mb-5 text-start">
+            <span class="section-subtitle text-gradient-primary">Credentials</span>
+            <h2 class="section-title">Certificates</h2>
+            <div class="section-title-bar-left"></div>
+          </div>
+          
+          <div class="timeline-container">
+            <!-- Timeline Item -->
+            <div class="timeline-item pointer-glow p-4 mb-4">
+              <div class="timeline-dot"></div>
+              <span class="timeline-date badge py-2 px-3 text-gradient-accent fw-bold"><i class="fa-solid fa-award me-1"></i>Completed</span>
+              <h3 class="timeline-title h5 mt-2">Data Analytics</h3>
+              <p class="timeline-subtitle text-muted mb-2"><i class="fa-solid fa-building-columns me-1"></i>Universal Computer Education Center</p>
+              <p class="timeline-desc mb-0 text-secondary">
+                Comprehensive training focusing on Excel fundamentals, SQL query creation, and data modeling techniques.
+              </p>
+            </div>
+            
+            <!-- Timeline Item -->
+            <div class="timeline-item pointer-glow p-4 mb-4">
+              <div class="timeline-dot"></div>
+              <span class="timeline-date badge py-2 px-3 text-gradient-primary fw-bold"><i class="fa-solid fa-award me-1"></i>Completed</span>
+              <h3 class="timeline-title h5 mt-2">Industry 4.0 & Industrial IoT</h3>
+              <p class="timeline-subtitle text-muted mb-2"><i class="fa-solid fa-industry me-1"></i>Advanced Analytics and Systems Certification</p>
+              <p class="timeline-desc mb-0 text-secondary">
+                Acquired foundational concepts on connected factories, machine sensor logging, and analyzing hardware metrics using python architectures.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right: Education Timeline -->
+        <div class="col-lg-6 reveal-fade-up" id="education">
+          <div class="section-header mb-5 text-start">
+            <span class="section-subtitle text-gradient-accent">My Journey</span>
+            <h2 class="section-title">Education</h2>
+            <div class="section-title-bar-left bg-accent"></div>
+          </div>
+          
+          <div class="timeline-container">
+            <!-- Education Item 1 -->
+            <div class="timeline-item pointer-glow p-4 mb-4">
+              <div class="timeline-dot"></div>
+              <span class="timeline-date badge py-2 px-3 text-gradient-accent fw-bold"><i class="fa-solid fa-calendar-days me-1"></i>2023 - 2026</span>
+              <h3 class="timeline-title h5 mt-2">Bachelor of Technology</h3>
+              <h4 class="timeline-subtitle text-gradient-primary h6 mb-1">Computer Science (AI & ML)</h4>
+              <p class="timeline-institution text-muted mb-2"><i class="fa-solid fa-school me-1"></i>Siddhartha Institute of Science and Technology</p>
+              <p class="timeline-desc mb-0 fw-semibold text-secondary-glow">
+                CGPA: 7.45 / 10
+              </p>
+            </div>
+
+            <!-- Education Item 2 -->
+            <div class="timeline-item pointer-glow p-4 mb-4">
+              <div class="timeline-dot"></div>
+              <span class="timeline-date badge py-2 px-3 text-gradient-accent fw-bold"><i class="fa-solid fa-calendar-days me-1"></i>2019 - 2022</span>
+              <h3 class="timeline-title h5 mt-2">Diploma</h3>
+              <h4 class="timeline-subtitle text-gradient-primary h6 mb-1">Mechanical Engineering</h4>
+              <p class="timeline-institution text-muted mb-2"><i class="fa-solid fa-school me-1"></i>State Board of Technical Education and Training</p>
+              <p class="timeline-desc mb-0 fw-semibold text-secondary-glow">
+                Percentage: 66.69%
+              </p>
+            </div>
+
+            <!-- Education Item 3 -->
+            <div class="timeline-item pointer-glow p-4 mb-4">
+              <div class="timeline-dot"></div>
+              <span class="timeline-date badge py-2 px-3 text-gradient-accent fw-bold"><i class="fa-solid fa-calendar-days me-1"></i>Graduated</span>
+              <h3 class="timeline-title h5 mt-2">SSC (Secondary School Certificate)</h3>
+              <p class="timeline-institution text-muted mb-2"><i class="fa-solid fa-school me-1"></i>St. Joseph's High School</p>
+              <p class="timeline-desc mb-0 fw-semibold text-secondary-glow">
+                GPA: 8.7 / 10
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS SECTION (Animated Counters) -->
+  <section class="achievements-section py-5 position-relative overflow-hidden">
+    <div class="container position-relative z-2">
+      <div class="row g-4 justify-content-center text-center">
+        <!-- Counter 1 -->
+        <div class="col-6 col-md-3 reveal-fade-up">
+          <div class="counter-card pointer-glow p-4">
+            <div class="counter-icon mb-3 text-primary-glow">
+              <i class="fa-solid fa-diagram-project"></i>
+            </div>
+            <h3 class="counter-number display-5 fw-extrabold mb-1 text-gradient-primary" data-target="3">0</h3>
+            <span class="counter-plus display-5 fw-extrabold mb-1 text-gradient-primary">+</span>
+            <p class="counter-label text-muted text-uppercase fw-bold mb-0">Projects Completed</p>
+          </div>
+        </div>
+
+        <!-- Counter 2 -->
+        <div class="col-6 col-md-3 reveal-fade-up">
+          <div class="counter-card pointer-glow p-4">
+            <div class="counter-icon mb-3 text-secondary-glow">
+              <i class="fa-solid fa-award"></i>
+            </div>
+            <h3 class="counter-number display-5 fw-extrabold mb-1 text-gradient-secondary" data-target="1">0</h3>
+            <span class="counter-plus display-5 fw-extrabold mb-1 text-gradient-secondary">+</span>
+            <p class="counter-label text-muted text-uppercase fw-bold mb-0">Certificates Earned</p>
+          </div>
+        </div>
+
+        <!-- Counter 3 -->
+        <div class="col-6 col-md-3 reveal-fade-up">
+          <div class="counter-card pointer-glow p-4">
+            <div class="counter-icon mb-3 text-accent-glow">
+              <i class="fa-solid fa-microchip"></i>
+            </div>
+            <h3 class="counter-number display-5 fw-extrabold mb-1 text-gradient-accent" data-target="10">0</h3>
+            <span class="counter-plus display-5 fw-extrabold mb-1 text-gradient-accent">+</span>
+            <p class="counter-label text-muted text-uppercase fw-bold mb-0">Technologies Learned</p>
+          </div>
+        </div>
+
+        <!-- Counter 4 -->
+        <div class="col-6 col-md-3 reveal-fade-up">
+          <div class="counter-card pointer-glow p-4">
+            <div class="counter-icon mb-3 text-gradient-pink">
+              <i class="fa-solid fa-hourglass-half"></i>
+            </div>
+            <h3 class="counter-number display-5 fw-extrabold mb-1 text-gradient-pink" data-target="500">0</h3>
+            <span class="counter-plus display-5 fw-extrabold mb-1 text-gradient-pink">+</span>
+            <p class="counter-label text-muted text-uppercase fw-bold mb-0">Coding Hours</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="contact-section py-6 position-relative">
+    <div class="hero-glow-blob-2"></div>
+    <div class="container position-relative z-2">
+      <div class="section-header text-center mb-6 reveal-fade-up">
+        <span class="section-subtitle text-gradient-accent">Let's Connect</span>
+        <h2 class="section-title">Get in Touch</h2>
+        <div class="section-title-bar mx-auto"></div>
+      </div>
+      
+      <div class="row justify-content-center gy-5">
+        <div class="col-lg-10">
+          <div class="luxury-contact-glass pointer-glow p-5">
+            <div class="row gy-5">
+              
+              <!-- Left: Contact Information -->
+              <div class="col-md-5 reveal-fade-up">
+                <h3 class="contact-card-title h4 mb-4 text-gradient-primary">Contact Details</h3>
+                
+                <div class="contact-info-list d-flex flex-column gap-4">
+                  <!-- Info Item -->
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="contact-icon-box text-primary-glow">
+                      <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div>
+                      <h4 class="contact-info-label text-muted mb-0">Phone</h4>
+                      <a href="tel:+917075330927" class="contact-info-val fw-semibold">+91 7075330927</a>
+                    </div>
+                  </div>
+                  <!-- Info Item -->
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="contact-icon-box text-secondary-glow">
+                      <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div>
+                      <h4 class="contact-info-label text-muted mb-0">Email</h4>
+                      <a href="mailto:nagaramsaiteja57@gmail.com" class="contact-info-val fw-semibold">nagaramsaiteja57@gmail.com</a>
+                    </div>
+                  </div>
+                  <!-- Info Item -->
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="contact-icon-box text-accent-glow">
+                      <i class="fa-brands fa-linkedin"></i>
+                    </div>
+                    <div>
+                      <h4 class="contact-info-label text-muted mb-0">LinkedIn</h4>
+                      <a href="https://linkedin.com/in/nsai-teja" target="_blank" rel="noopener" class="contact-info-val fw-semibold">linkedin.com/in/nsai-teja</a>
+                    </div>
+                  </div>
+                  <!-- Info Item -->
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="contact-icon-box text-gradient-pink">
+                      <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                      <h4 class="contact-info-label text-muted mb-0">Location</h4>
+                      <span class="contact-info-val fw-semibold">Kadapa, Andhra Pradesh</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Google Maps Placeholder / Dynamic Image -->
+                <div class="map-placeholder-box mt-5 position-relative overflow-hidden">
+                  <iframe 
+                    title="Nagaram Sai Tejachary Location Map"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d123512.44321303867!2d78.77536968798991!3d14.478950854497334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb37213c4805f15%3A0xa196944e839e944!2sKadapa%2C%20Andhra%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+                    width="100%" 
+                    height="180" 
+                    style="border:0; filter: grayscale(100%) invert(90%) contrast(120%);" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                  </iframe>
+                  <div class="map-overlay-glow"></div>
+                </div>
+              </div>
+              
+              <!-- Right: Form -->
+              <div class="col-md-7 reveal-fade-up">
+                <h3 class="contact-card-title h4 mb-4 text-gradient-accent">Send a Message</h3>
+                <form id="contactForm" class="contact-form-glass">
+                  <div class="row g-3">
+                    <div class="col-sm-6">
+                      <div class="form-group-custom position-relative">
+                        <input type="text" id="contactName" name="name" class="form-control-custom w-100" required placeholder=" ">
+                        <label for="contactName" class="form-label-custom">Your Name</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group-custom position-relative">
+                        <input type="email" id="contactEmail" name="email" class="form-control-custom w-100" required placeholder=" ">
+                        <label for="contactEmail" class="form-label-custom">Your Email</label>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group-custom position-relative">
+                        <input type="text" id="contactSubject" name="subject" class="form-control-custom w-100" required placeholder=" ">
+                        <label for="contactSubject" class="form-label-custom">Subject</label>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group-custom position-relative">
+                        <textarea id="contactMessage" name="message" rows="4" class="form-control-custom w-100" required placeholder=" "></textarea>
+                        <label for="contactMessage" class="form-label-custom">Your Message</label>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <button type="submit" id="submitBtn" class="btn btn-premium btn-gradient w-100 py-3 mt-2">
+                        <i class="fa-solid fa-paper-plane me-2"></i>Send Message
+                      </button>
+                      <div class="form-feedback-message mt-3 d-none" id="formFeedback"></div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer py-5 position-relative overflow-hidden">
+    <div class="container position-relative z-2">
+      <div class="row gy-4 align-items-center">
+        <!-- Left: Branding -->
+        <div class="col-md-4 text-center text-md-start">
+          <a class="footer-logo mb-3 d-inline-block text-gradient-primary fw-bold h4" href="#home">NST</a>
+          <p class="footer-summary text-muted mb-0 small">
+            Crafting scalable software and transforming raw datasets into valuable, actionable business decisions.
+          </p>
+        </div>
+        
+        <!-- Center: Quick Links -->
+        <div class="col-md-4 text-center">
+          <ul class="list-inline footer-links-list mb-0">
+            <li class="list-inline-item mx-2"><a href="#home" class="footer-link">Home</a></li>
+            <li class="list-inline-item mx-2"><a href="#about" class="footer-link">About</a></li>
+            <li class="list-inline-item mx-2"><a href="#skills" class="footer-link">Skills</a></li>
+            <li class="list-inline-item mx-2"><a href="#projects" class="footer-link">Projects</a></li>
+            <li class="list-inline-item mx-2"><a href="#contact" class="footer-link">Contact</a></li>
+          </ul>
+        </div>
+        
+        <!-- Right: Actions & Socials -->
+        <div class="col-md-4 text-center text-md-end">
+          <div class="footer-socials mb-3 d-flex justify-content-center justify-content-md-end gap-2">
+            <a href="https://linkedin.com/in/nsai-teja" target="_blank" rel="noopener" class="social-circle-link small-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://github.com/nagaramsaiteja" target="_blank" rel="noopener" class="social-circle-link small-icon" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="mailto:nagaramsaiteja57@gmail.com" class="social-circle-link small-icon" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+          <a href="assets/documents/resume.pdf" download="Nagaram_Sai_Tejachary_Resume.pdf" class="btn btn-sm btn-outline-glass py-2 px-3 small-btn-text">
+            <i class="fa-solid fa-cloud-arrow-down me-1"></i>Download Resume
+          </a>
+        </div>
+      </div>
+      
+      <hr class="footer-divider my-4">
+      
+      <!-- Bottom row -->
+      <div class="row align-items-center">
+        <div class="col-sm-6 text-center text-sm-start mb-2 mb-sm-0">
+          <p class="copyright-txt mb-0 text-muted small">&copy; 2026 Nagaram Sai Tejachary. All rights reserved.</p>
+        </div>
+        <div class="col-sm-6 text-center text-sm-end">
+          <p class="made-by-txt mb-0 text-muted small">Made with <i class="fa-solid fa-heart animate-heartbeat text-danger"></i> by Nagaram Sai Tejachary</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Elements -->
+  <!-- Scroll to Top -->
+  <button id="scrollToTopBtn" class="btn-scroll-top btn-circle btn-primary-glow d-flex align-items-center justify-content-center" aria-label="Scroll to Top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+  
+  <!-- Floating Contact Button -->
+  <a href="#contact" id="floatingContactBtn" class="btn-floating-contact btn-circle btn-gradient d-flex align-items-center justify-content-center" aria-label="Quick Message">
+    <i class="fa-solid fa-message"></i>
+  </a>
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JS -->
+  <script src="script.js"></script>
+</body>
+</html>

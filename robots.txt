@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nagaramsaiteja.github.io/sitemap.xml
