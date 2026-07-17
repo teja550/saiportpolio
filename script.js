@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const rotateX = ((y - centerY) / centerY) * -8; // Limit to 8 deg
       const rotateY = ((x - centerX) / centerX) * 8;
       
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
     });
     
     card.addEventListener('mouseleave', () => {
@@ -435,5 +435,43 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 1500);
     });
   }
-  
+
+  /* --------------------------------------------------------------------------
+     15. PROJECTS CAROUSEL (SWIPER INITIALIZATION)
+     -------------------------------------------------------------------------- */
+  if (typeof Swiper !== 'undefined') {
+    const projectsSwiper = new Swiper('.projects-swiper', {
+      loop: true,
+      grabCursor: true,
+      spaceBetween: 24,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      },
+      navigation: {
+        nextEl: '.swiper-nav-next',
+        prevEl: '.swiper-nav-prev',
+      },
+      pagination: {
+        el: '.projects-swiper-pagination',
+        clickable: true,
+        dynamicBullets: false,
+      },
+      breakpoints: {
+        // Mobile layout
+        0: {
+          slidesPerView: 1,
+        },
+        // Tablet layout
+        768: {
+          slidesPerView: 2,
+        },
+        // Desktop layout
+        992: {
+          slidesPerView: 3,
+        }
+      }
+    });
+  }
 });

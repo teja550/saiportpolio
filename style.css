@@ -858,14 +858,14 @@ body.light-theme .progress-bar-wrap {
   height: 100%;
   display: flex;
   flex-direction: column;
-  transition: var(--transition-smooth);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   transform-style: preserve-3d;
   perspective: 1000px;
 }
 .project-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-8px);
   border-color: var(--border-glass-hover);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45), var(--shadow-glow-primary);
 }
 
 .project-img-wrapper {
@@ -960,6 +960,95 @@ body.light-theme .progress-bar-wrap {
 .project-card:hover .badge-tech {
   border-color: var(--border-glass-hover);
   color: var(--text-primary);
+}
+
+/* Swiper Slider Integration Styles */
+.projects-slider-container {
+  padding: 0 50px;
+}
+
+.projects-swiper {
+  padding: 20px 0 30px 0; /* Add vertical padding so hover translateY(-8px) and active box shadow aren't clipped */
+  overflow: visible !important;
+}
+
+.projects-swiper .swiper-slide {
+  height: auto; /* Flex height matching card siblings */
+  display: flex;
+  justify-content: center;
+}
+
+/* Custom Navigation Buttons */
+.swiper-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid var(--border-glass);
+  background: var(--bg-glass);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: var(--transition-smooth);
+  backdrop-filter: blur(8px);
+}
+
+.swiper-nav-prev {
+  left: -10px;
+}
+
+.swiper-nav-next {
+  right: -10px;
+}
+
+.swiper-nav-btn:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #FFFFFF;
+  box-shadow: var(--shadow-glow-primary);
+  transform: translateY(-50%) scale(1.08);
+}
+
+/* On mobile/tablet, let's adjust navigation buttons layout if needed, or hide them and rely on touch swipe */
+@media (max-width: 767px) {
+  .projects-slider-container {
+    padding: 0 15px; /* Less horizontal padding on mobile */
+  }
+  .swiper-nav-btn {
+    display: none; /* Hide navigation buttons on mobile as touch swipe is preferred */
+  }
+}
+
+/* Custom Pagination Dots */
+.projects-swiper-pagination {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.projects-swiper-pagination .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: var(--text-muted);
+  opacity: 0.35;
+  border-radius: 50%;
+  transition: var(--transition-smooth);
+  cursor: pointer;
+}
+
+.projects-swiper-pagination .swiper-pagination-bullet-active {
+  width: 28px;
+  border-radius: 5px;
+  background: var(--color-primary);
+  opacity: 1;
+  box-shadow: var(--shadow-glow-primary);
 }
 
 /* --------------------------------------------------------------------------
