@@ -45,7 +45,7 @@ export default async function handler(req, res) {
       console.warn('[API /api/contact] Honeypot field filled. Rejecting bot submission quietly.');
       return res.status(200).json({
         success: true,
-        message: 'Message sent successfully! I’ll get back to you soon.',
+        message: "Message sent successfully! I'll get back to you soon.",
       });
     }
 
@@ -108,7 +108,7 @@ export default async function handler(req, res) {
     const gmailUser = process.env.GMAIL_USER;
     const gmailPass = process.env.GMAIL_APP_PASSWORD;
 
-    // PROVIDER 1: WEB3FORMS (Simplest & Direct)
+    // PROVIDER 1: WEB3FORMS (If API key provided)
     if (web3FormsKey) {
       console.log('[API /api/contact] Dispatching email via Web3Forms API...');
       const response = await fetch('https://api.web3forms.com/submit', {
@@ -144,7 +144,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // PROVIDER 2: RESEND (Vercel Serverless)
+    // PROVIDER 2: RESEND (If API key provided)
     if (resendApiKey) {
       console.log('[API /api/contact] Dispatching email via Resend API...');
       const response = await fetch('https://api.resend.com/emails', {
@@ -230,13 +230,36 @@ export default async function handler(req, res) {
       });
     }
 
-    // Fallback if no provider environment variables are configured
-    console.error(
-      '[API /api/contact Error] No email provider configured! Please set WEB3FORMS_ACCESS_KEY, RESEND_API_KEY, or GMAIL_APP_PASSWORD in environment variables.'
-    );
+    // PROVIDER 4: FORMSUBMIT DIRECT DELIVERY TO GMAIL (Default Zero-Config Fallback)
+    console.log('[API /api/contact] Dispatching direct to Gmail recipient via FormSubmit:', recipientEmail);
+    const formSubmitRes = await fetch(`https://formsubmit.co/ajax/${recipientEmail}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        name: trimmedName,
+        email: trimmedEmail,
+        _replyto: trimmedEmail, // Sets visitor email as Reply-To in Gmail!
+        _subject: `New Portfolio Contact: ${trimmedSubject}`,
+        message: `New Portfolio Contact\n\nName: ${trimmedName}\nEmail: ${trimmedEmail}\nSubject: ${trimmedSubject}\n\nMessage:\n${trimmedMessage}`,
+      }),
+    });
+
+    const formSubmitData = await formSubmitRes.json().catch(() => ({}));
+    if (formSubmitRes.ok) {
+      console.log('[API /api/contact] Direct FormSubmit email delivered to:', recipientEmail);
+      return res.status(200).json({
+        success: true,
+        message: "Message sent successfully! I'll get back to you soon.",
+      });
+    }
+
+    console.error('[API /api/contact] FormSubmit error:', formSubmitData);
     return res.status(500).json({
       success: false,
-      error: 'Failed to send message. Service environment variables not configured on Vercel.',
+      error: 'Failed to send message. Please try again.',
     });
   } catch (err) {
     console.error('[API /api/contact Catch Error]', err);
