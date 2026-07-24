@@ -14,6 +14,30 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 3000;
 
+// Automatically load local .env file if it exists
+const envPath = path.join(__dirname, '.env');
+if (fs.existsSync(envPath)) {
+  try {
+    const envConfig = fs.readFileSync(envPath, 'utf8');
+    envConfig.split(/\r?\n/).forEach(line => {
+      const trimmed = line.trim();
+      if (trimmed && !trimmed.startsWith('#')) {
+        const [key, ...valueParts] = trimmed.split('=');
+        if (key && valueParts.length > 0) {
+          const varKey = key.trim();
+          const varValue = valueParts.join('=').trim().replace(/^["']|["']$/g, '');
+          if (!process.env[varKey]) {
+            process.env[varKey] = varValue;
+          }
+        }
+      }
+    });
+    console.log('[Server] Loaded local environment variables from .env file.');
+  } catch (err) {
+    console.warn('[Server] Could not parse .env file:', err.message);
+  }
+}
+
 // MIME types for static files
 const MIME_TYPES = {
   '.html': 'text/html',
@@ -76,7 +100,8 @@ const server = http.createServer(async (req, res) => {
   }
 
   // Serve Static Files
-  let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url);
+  let cleanUrl = req.url.split('?')[0];
+  let filePath = path.join(__dirname, cleanUrl === '/' ? 'index.html' : cleanUrl);
   const ext = path.extname(filePath).toLowerCase();
 
   fs.stat(filePath, (err, stats) => {

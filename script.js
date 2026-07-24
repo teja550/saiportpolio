@@ -434,72 +434,46 @@ document.addEventListener('DOMContentLoaded', () => {
       const initialBtnHtml = submitBtn.innerHTML;
       submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Sending...';
 
-      let isSuccess = false;
-      let errorMessage = 'Unable to send your message. Please try again.';
-
-      // Check protocol: file:// vs http(s)://
-      const isFileProtocol = window.location.protocol === 'file:';
-
       try {
-        // Attempt 1: Serverless / API Route (/api/contact)
-        if (!isFileProtocol) {
-          const response = await fetch('/api/contact', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, subject, message, bot_check: botCheck }),
-          });
+        // Send request to relative endpoint /api/contact (works on localhost:3000 & Vercel deployment)
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            subject,
+            message,
+            bot_check: botCheck,
+          }),
+        });
 
-          const data = await response.json().catch(() => ({}));
-          if (response.ok && data.success) {
-            isSuccess = true;
-          } else if (data.error) {
-            errorMessage = data.error;
-          }
-        }
+        const data = await response.json().catch(() => ({}));
 
-        // Attempt 2: Direct Web3Forms Fallback (if configured on client or if /api/contact is unavailable)
-        const web3Key = window.WEB3FORMS_ACCESS_KEY || (typeof WEB3FORMS_ACCESS_KEY !== 'undefined' ? WEB3FORMS_ACCESS_KEY : null);
-        if (!isSuccess && web3Key) {
-          const web3Res = await fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({
-              access_key: web3Key,
-              name,
-              email,
-              subject: `Portfolio Contact: ${subject}`,
-              message,
-              botcheck: botCheck,
-            }),
-          });
-          const web3Data = await web3Res.json().catch(() => ({}));
-          if (web3Res.ok && web3Data.success) {
-            isSuccess = true;
-          }
-        }
-
-        // Inform user on file:// protocol test
-        if (isFileProtocol && !isSuccess) {
-          console.warn(
-            'Local file:// protocol detected. Backend API routes (/api/contact) require a server. Please run "npm start" locally or deploy to Vercel.'
-          );
-          errorMessage = 'Testing locally? Please run "npm start" (http://localhost:3000) or deploy on Vercel to submit emails.';
-        }
-      } catch (err) {
-        console.error('Contact Form Submission Error:', err);
-      } finally {
-        if (isSuccess) {
+        if (response.ok && data.success) {
           formFeedback.className = 'form-feedback-message success mt-3';
           formFeedback.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i>Message sent successfully! I’ll get back to you soon.';
           formFeedback.classList.remove('d-none');
           contactForm.reset();
         } else {
+          console.error('Contact Form Submission Error:', data.error || response.statusText);
           formFeedback.className = 'form-feedback-message error mt-3';
-          formFeedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-2"></i>${errorMessage}`;
+          formFeedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-2"></i>${data.error || 'Unable to send your message. Please try again.'}`;
           formFeedback.classList.remove('d-none');
         }
-
-        // Re-enable submit button and restore text
+      } catch (err) {
+        console.error('Network Error while submitting contact form:', err);
+        formFeedback.className = 'form-feedback-message error mt-3';
+        if (window.location.protocol === 'file:') {
+          formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Please open http://localhost:3000 (run "npm start") or deploy to Vercel to send messages.';
+        } else {
+          formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Unable to send your message. Please try again.';
+        }
+        formFeedback.classList.remove('d-none');
+      } finally {
+        // Re-enable submit button and restore original text
         submitBtn.disabled = false;
         submitBtn.innerHTML = initialBtnHtml;
       }

@@ -2,12 +2,15 @@
   "name": "sai-teja-portfolio",
   "version": "1.0.0",
   "description": "Professional Portfolio Website of Nagaram Sai Tejachary",
+  "main": "server.js",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "vercel dev",
-    "start": "npx serve ."
+    "start": "node server.js",
+    "dev": "node server.js"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "nodemailer": "^6.9.13"
   }
 }
