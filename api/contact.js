@@ -1,6 +1,6 @@
 // ==============================================================================
 // VERCEL SERVERLESS FUNCTION: /api/contact
-// Contact Form Submission & Email Delivery Handler
+// Contact Form Submission & Email Delivery Handler with Reply-To support
 // ==============================================================================
 
 // Simple in-memory rate limiting map for Vercel lambdas
@@ -32,9 +32,17 @@ export default async function handler(req, res) {
   try {
     const { name, email, subject, message, bot_check } = req.body || {};
 
+    console.log('[API /api/contact] Received submission payload:', {
+      name,
+      email,
+      subject,
+      messageLength: message ? message.length : 0,
+      bot_check: bot_check ? '[HIDDEN_BOT_INPUT]' : 'none',
+    });
+
     // 1. Honeypot Anti-Spam Check
     if (bot_check && bot_check.trim() !== '') {
-      // Spam bot detected - return success silently to fool the bot
+      console.warn('[API /api/contact] Honeypot field filled. Rejecting bot submission quietly.');
       return res.status(200).json({
         success: true,
         message: 'Message sent successfully! I’ll get back to you soon.',
@@ -48,18 +56,20 @@ export default async function handler(req, res) {
     const trimmedMessage = (message || '').trim();
 
     if (!trimmedName || !trimmedEmail || !trimmedSubject || !trimmedMessage) {
+      console.warn('[API /api/contact] Validation error: Missing required fields');
       return res.status(400).json({
         success: false,
-        error: 'All required fields (Name, Email, Subject, Message) must be filled.',
+        error: 'Failed to send message. All fields are required.',
       });
     }
 
     // Email format regex validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(trimmedEmail)) {
+      console.warn('[API /api/contact] Validation error: Invalid email format:', trimmedEmail);
       return res.status(400).json({
         success: false,
-        error: 'Please provide a valid email address.',
+        error: 'Failed to send message. Please enter a valid email address.',
       });
     }
 
@@ -67,7 +77,7 @@ export default async function handler(req, res) {
     const clientIp =
       req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown';
     const now = Date.now();
-    const windowMs = 10 * 60 * 1000; // 10 minutes
+    const windowMs = 10 * 60 * 1000;
     const limit = 5;
 
     const ipData = rateLimitMap.get(clientIp) || { count: 0, resetTime: now + windowMs };
@@ -82,9 +92,10 @@ export default async function handler(req, res) {
     rateLimitMap.set(clientIp, ipData);
 
     if (ipData.count > limit) {
+      console.warn('[API /api/contact] Rate limit exceeded for IP:', clientIp);
       return res.status(429).json({
         success: false,
-        error: 'Too many requests. Please wait a few minutes before trying again.',
+        error: 'Failed to send message. Too many requests, please wait a few minutes.',
       });
     }
 
@@ -97,8 +108,45 @@ export default async function handler(req, res) {
     const gmailUser = process.env.GMAIL_USER;
     const gmailPass = process.env.GMAIL_APP_PASSWORD;
 
-    // PROVIDER 1: RESEND (Recommended)
+    // PROVIDER 1: WEB3FORMS (Simplest & Direct)
+    if (web3FormsKey) {
+      console.log('[API /api/contact] Dispatching email via Web3Forms API...');
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: web3FormsKey,
+          name: trimmedName,
+          email: trimmedEmail,
+          replyto: trimmedEmail, // Sets visitor email as Reply-To in Gmail!
+          subject: `New Portfolio Contact: ${trimmedSubject}`,
+          message: `New Portfolio Contact\n\nName: ${trimmedName}\nEmail: ${trimmedEmail}\nSubject: ${trimmedSubject}\n\nMessage:\n${trimmedMessage}`,
+          from_name: `${trimmedName} (Portfolio Contact)`,
+        }),
+      });
+
+      const data = await response.json();
+      if (!data.success) {
+        console.error('[API /api/contact] Web3Forms API returned error:', data);
+        return res.status(500).json({
+          success: false,
+          error: 'Failed to send message. Please try again.',
+        });
+      }
+
+      console.log('[API /api/contact] Web3Forms email sent successfully to:', recipientEmail);
+      return res.status(200).json({
+        success: true,
+        message: "Message sent successfully! I'll get back to you soon.",
+      });
+    }
+
+    // PROVIDER 2: RESEND (Vercel Serverless)
     if (resendApiKey) {
+      console.log('[API /api/contact] Dispatching email via Resend API...');
       const response = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
@@ -106,13 +154,13 @@ export default async function handler(req, res) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: 'Portfolio Contact Form <onboarding@resend.dev>',
+          from: 'Portfolio Contact <onboarding@resend.dev>',
           to: [recipientEmail],
-          reply_to: trimmedEmail,
-          subject: `Portfolio Contact: ${trimmedSubject}`,
+          reply_to: trimmedEmail, // Sets visitor email as Reply-To in Gmail!
+          subject: `New Portfolio Contact: ${trimmedSubject}`,
           html: `
             <div style="font-family: Arial, sans-serif; padding: 20px; color: #1e293b; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px;">
-              <h2 style="color: #2563eb; margin-top: 0;">New Message from Portfolio Website</h2>
+              <h2 style="color: #2563eb; margin-top: 0;">New Portfolio Contact</h2>
               <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0;">
               <p><strong>Name:</strong> ${escapeHtml(trimmedName)}</p>
               <p><strong>Email:</strong> <a href="mailto:${escapeHtml(trimmedEmail)}">${escapeHtml(trimmedEmail)}</a></p>
@@ -128,55 +176,23 @@ export default async function handler(req, res) {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        console.error('Resend API Error:', errorData);
+        console.error('[API /api/contact] Resend API Error:', response.status, errorData);
         return res.status(500).json({
           success: false,
-          error: 'Unable to send your message. Please try again.',
+          error: 'Failed to send message. Please try again.',
         });
       }
 
+      console.log('[API /api/contact] Resend email sent successfully to:', recipientEmail);
       return res.status(200).json({
         success: true,
-        message: 'Message sent successfully! I’ll get back to you soon.',
+        message: "Message sent successfully! I'll get back to you soon.",
       });
     }
 
-    // PROVIDER 2: WEB3FORMS
-    if (web3FormsKey) {
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          access_key: web3FormsKey,
-          name: trimmedName,
-          email: trimmedEmail,
-          subject: `Portfolio Contact: ${trimmedSubject}`,
-          message: trimmedMessage,
-          from_name: `${trimmedName} (Portfolio Form)`,
-        }),
-      });
-
-      const data = await response.json();
-      if (!data.success) {
-        console.error('Web3Forms Error:', data);
-        return res.status(500).json({
-          success: false,
-          error: 'Unable to send your message. Please try again.',
-        });
-      }
-
-      return res.status(200).json({
-        success: true,
-        message: 'Message sent successfully! I’ll get back to you soon.',
-      });
-    }
-
-    // PROVIDER 3: NODEMAILER (GMAIL APP PASSWORD)
+    // PROVIDER 3: GMAIL SMTP (NODEMAILER)
     if (gmailUser && gmailPass) {
-      // Lazy import nodemailer
+      console.log('[API /api/contact] Dispatching email via Nodemailer (Gmail SMTP)...');
       const nodemailer = await import('nodemailer');
       const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -189,12 +205,12 @@ export default async function handler(req, res) {
       await transporter.sendMail({
         from: `"${trimmedName}" <${gmailUser}>`,
         to: recipientEmail,
-        replyTo: trimmedEmail,
-        subject: `Portfolio Contact: ${trimmedSubject}`,
-        text: `Name: ${trimmedName}\nEmail: ${trimmedEmail}\nSubject: ${trimmedSubject}\n\nMessage:\n${trimmedMessage}`,
+        replyTo: trimmedEmail, // Sets visitor email as Reply-To in Gmail!
+        subject: `New Portfolio Contact: ${trimmedSubject}`,
+        text: `New Portfolio Contact\n\nName: ${trimmedName}\nEmail: ${trimmedEmail}\nSubject: ${trimmedSubject}\n\nMessage:\n${trimmedMessage}`,
         html: `
           <div style="font-family: Arial, sans-serif; padding: 20px; color: #1e293b; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px;">
-            <h2 style="color: #2563eb; margin-top: 0;">New Message from Portfolio Website</h2>
+            <h2 style="color: #2563eb; margin-top: 0;">New Portfolio Contact</h2>
             <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0;">
             <p><strong>Name:</strong> ${escapeHtml(trimmedName)}</p>
             <p><strong>Email:</strong> <a href="mailto:${escapeHtml(trimmedEmail)}">${escapeHtml(trimmedEmail)}</a></p>
@@ -207,26 +223,26 @@ export default async function handler(req, res) {
         `,
       });
 
+      console.log('[API /api/contact] Nodemailer email sent successfully to:', recipientEmail);
       return res.status(200).json({
         success: true,
-        message: 'Message sent successfully! I’ll get back to you soon.',
+        message: "Message sent successfully! I'll get back to you soon.",
       });
     }
 
     // Fallback if no provider environment variables are configured
-    console.warn(
-      'No email API key configured. Please set RESEND_API_KEY, WEB3FORMS_ACCESS_KEY, or GMAIL_APP_PASSWORD in environment variables.'
+    console.error(
+      '[API /api/contact Error] No email provider configured! Please set WEB3FORMS_ACCESS_KEY, RESEND_API_KEY, or GMAIL_APP_PASSWORD in environment variables.'
     );
     return res.status(500).json({
       success: false,
-      error:
-        'Server configuration issue: Email service environment variables are missing on Vercel.',
+      error: 'Failed to send message. Service environment variables not configured on Vercel.',
     });
   } catch (err) {
-    console.error('Contact endpoint error:', err);
+    console.error('[API /api/contact Catch Error]', err);
     return res.status(500).json({
       success: false,
-      error: 'Unable to send your message. Please try again.',
+      error: 'Failed to send message. Please try again.',
     });
   }
 }

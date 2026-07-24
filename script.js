@@ -407,6 +407,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const message = document.getElementById('contactMessage').value.trim();
       const botCheck = document.getElementById('contactHoneypot') ? document.getElementById('contactHoneypot').value : '';
 
+      console.log('[Contact Form] Initiating submit:', { name, email, subject, messageLength: message.length });
+
       // Reset previous feedback message state
       formFeedback.classList.add('d-none');
       formFeedback.className = 'form-feedback-message mt-3 d-none';
@@ -414,8 +416,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Client-side Validation: All fields required
       if (!name || !email || !subject || !message) {
+        console.warn('[Contact Form] Validation failed: Empty required fields');
         formFeedback.className = 'form-feedback-message error mt-3';
-        formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Please fill in all required fields.';
+        formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Failed to send message. Please fill in all fields.';
         formFeedback.classList.remove('d-none');
         return;
       }
@@ -423,19 +426,20 @@ document.addEventListener('DOMContentLoaded', () => {
       // Email format regex validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
+        console.warn('[Contact Form] Validation failed: Invalid email address format:', email);
         formFeedback.className = 'form-feedback-message error mt-3';
-        formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Please enter a valid email address.';
+        formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Failed to send message. Please enter a valid email address.';
         formFeedback.classList.remove('d-none');
         return;
       }
 
-      // Lock submit button & show loading spinner
+      // Lock submit button & show loading spinner "Sending..."
       submitBtn.disabled = true;
       const initialBtnHtml = submitBtn.innerHTML;
       submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Sending...';
 
       try {
-        // Send request to relative endpoint /api/contact (works on localhost:3000 & Vercel deployment)
+        // Send request to relative endpoint /api/contact
         const response = await fetch('/api/contact', {
           method: 'POST',
           headers: {
@@ -453,24 +457,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json().catch(() => ({}));
 
         if (response.ok && data.success) {
+          console.log('[Contact Form] Submission succeeded:', data);
           formFeedback.className = 'form-feedback-message success mt-3';
-          formFeedback.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i>Message sent successfully! I’ll get back to you soon.';
+          formFeedback.innerHTML = `<i class="fa-solid fa-circle-check me-2"></i>${data.message || "Message sent successfully! I'll get back to you soon."}`;
           formFeedback.classList.remove('d-none');
+          
+          // Clear all form input fields
           contactForm.reset();
         } else {
-          console.error('Contact Form Submission Error:', data.error || response.statusText);
+          console.error('[Contact Form Error] Server returned error response:', response.status, data);
           formFeedback.className = 'form-feedback-message error mt-3';
-          formFeedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-2"></i>${data.error || 'Unable to send your message. Please try again.'}`;
+          formFeedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-2"></i>${data.error || "Failed to send message. Please try again."}`;
           formFeedback.classList.remove('d-none');
         }
       } catch (err) {
-        console.error('Network Error while submitting contact form:', err);
+        console.error('[Contact Form Error] Exception during fetch request:', err);
         formFeedback.className = 'form-feedback-message error mt-3';
-        if (window.location.protocol === 'file:') {
-          formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Please open http://localhost:3000 (run "npm start") or deploy to Vercel to send messages.';
-        } else {
-          formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Unable to send your message. Please try again.';
-        }
+        formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Failed to send message. Please try again.';
         formFeedback.classList.remove('d-none');
       } finally {
         // Re-enable submit button and restore original text
