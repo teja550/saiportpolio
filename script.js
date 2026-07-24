@@ -439,39 +439,64 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Sending...';
 
       try {
-        // Send request to relative endpoint /api/contact
-        const response = await fetch('/api/contact', {
+        // Direct Web3Forms Client-Side API Submission with Access Key
+        const web3Key = '073acc17-c079-44df-9de9-d56b5d888485';
+        let isSuccess = false;
+        let responseData = {};
+
+        const response = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Accept': 'application/json',
           },
           body: JSON.stringify({
+            access_key: web3Key,
             name,
             email,
-            subject,
-            message,
-            bot_check: botCheck,
+            replyto: email, // Sets visitor email as Reply-To in Gmail!
+            subject: `New Portfolio Contact: ${subject}`,
+            message: `New Portfolio Contact\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${message}`,
+            from_name: `${name} (Portfolio Contact)`,
+            botcheck: botCheck,
           }),
         });
 
-        const data = await response.json().catch(() => ({}));
+        responseData = await response.json().catch(() => ({}));
 
-        if (response.ok && data.success) {
-          console.log('[Contact Form] Submission succeeded:', data);
+        if (response.ok && responseData.success) {
+          isSuccess = true;
+        } else {
+          // Fallback to /api/contact endpoint if direct fetch fails
+          console.warn('[Contact Form] Web3Forms direct fetch failed, trying /api/contact fallback...', responseData);
+          const apiRes = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, subject, message, bot_check: botCheck }),
+          });
+          const apiData = await apiRes.json().catch(() => ({}));
+          if (apiRes.ok && apiData.success) {
+            isSuccess = true;
+            responseData = apiData;
+          }
+        }
+
+        if (isSuccess) {
+          console.log('[Contact Form] Submission succeeded:', responseData);
           formFeedback.className = 'form-feedback-message success mt-3';
-          formFeedback.innerHTML = `<i class="fa-solid fa-circle-check me-2"></i>${data.message || "Message sent successfully! I'll get back to you soon."}`;
+          formFeedback.innerHTML = `<i class="fa-solid fa-circle-check me-2"></i>Message sent successfully! I'll get back to you soon.`;
           formFeedback.classList.remove('d-none');
           
           // Clear all form input fields
           contactForm.reset();
         } else {
-          console.error('[Contact Form Error] Server returned error response:', response.status, data);
+          console.error('[Contact Form Error] Submission failed:', responseData);
           formFeedback.className = 'form-feedback-message error mt-3';
-          formFeedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-2"></i>${data.error || "Failed to send message. Please try again."}`;
+          formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Failed to send message. Please try again.';
           formFeedback.classList.remove('d-none');
         }
       } catch (err) {
-        console.error('[Contact Form Error] Exception during fetch request:', err);
+        console.error('[Contact Form Error] Exception during submission:', err);
         formFeedback.className = 'form-feedback-message error mt-3';
         formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Failed to send message. Please try again.';
         formFeedback.classList.remove('d-none');
