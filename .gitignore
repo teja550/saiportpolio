@@ -26,6 +26,12 @@ yarn-error.log*
 # Vercel Cache & Local Links
 .vercel/
 
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+*.env
+
 # Dependencies
 node_modules/
 dist/

@@ -390,49 +390,119 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* --------------------------------------------------------------------------
-     14. CONTACT FORM CLIENT VALIDATION & FEEDBACK
+     14. CONTACT FORM CLIENT VALIDATION & API SUBMISSION
      -------------------------------------------------------------------------- */
   const contactForm = document.getElementById('contactForm');
   const formFeedback = document.getElementById('formFeedback');
   const submitBtn = document.getElementById('submitBtn');
   
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      // Feedback button status styling
+
+      // Read form input values
+      const name = document.getElementById('contactName').value.trim();
+      const email = document.getElementById('contactEmail').value.trim();
+      const subject = document.getElementById('contactSubject').value.trim();
+      const message = document.getElementById('contactMessage').value.trim();
+      const botCheck = document.getElementById('contactHoneypot') ? document.getElementById('contactHoneypot').value : '';
+
+      // Reset previous feedback message state
+      formFeedback.classList.add('d-none');
+      formFeedback.className = 'form-feedback-message mt-3 d-none';
+      formFeedback.innerHTML = '';
+
+      // Client-side Validation: All fields required
+      if (!name || !email || !subject || !message) {
+        formFeedback.className = 'form-feedback-message error mt-3';
+        formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Please fill in all required fields.';
+        formFeedback.classList.remove('d-none');
+        return;
+      }
+
+      // Email format regex validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        formFeedback.className = 'form-feedback-message error mt-3';
+        formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Please enter a valid email address.';
+        formFeedback.classList.remove('d-none');
+        return;
+      }
+
+      // Lock submit button & show loading spinner
       submitBtn.disabled = true;
-      const initialBtnText = submitBtn.innerHTML;
-      submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch animate-spin me-2"></i>Sending...';
-      
-      // Simulate API submit timeout
-      setTimeout(() => {
-        // Validation check simulation
-        const name = document.getElementById('contactName').value.trim();
-        const email = document.getElementById('contactEmail').value.trim();
-        
-        if (name && email) {
-          formFeedback.className = "form-feedback-message success";
-          formFeedback.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i>Thank you, Sai Teja will connect with you shortly!';
+      const initialBtnHtml = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Sending...';
+
+      let isSuccess = false;
+      let errorMessage = 'Unable to send your message. Please try again.';
+
+      // Check protocol: file:// vs http(s)://
+      const isFileProtocol = window.location.protocol === 'file:';
+
+      try {
+        // Attempt 1: Serverless / API Route (/api/contact)
+        if (!isFileProtocol) {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, subject, message, bot_check: botCheck }),
+          });
+
+          const data = await response.json().catch(() => ({}));
+          if (response.ok && data.success) {
+            isSuccess = true;
+          } else if (data.error) {
+            errorMessage = data.error;
+          }
+        }
+
+        // Attempt 2: Direct Web3Forms Fallback (if configured on client or if /api/contact is unavailable)
+        const web3Key = window.WEB3FORMS_ACCESS_KEY || (typeof WEB3FORMS_ACCESS_KEY !== 'undefined' ? WEB3FORMS_ACCESS_KEY : null);
+        if (!isSuccess && web3Key) {
+          const web3Res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+              access_key: web3Key,
+              name,
+              email,
+              subject: `Portfolio Contact: ${subject}`,
+              message,
+              botcheck: botCheck,
+            }),
+          });
+          const web3Data = await web3Res.json().catch(() => ({}));
+          if (web3Res.ok && web3Data.success) {
+            isSuccess = true;
+          }
+        }
+
+        // Inform user on file:// protocol test
+        if (isFileProtocol && !isSuccess) {
+          console.warn(
+            'Local file:// protocol detected. Backend API routes (/api/contact) require a server. Please run "npm start" locally or deploy to Vercel.'
+          );
+          errorMessage = 'Testing locally? Please run "npm start" (http://localhost:3000) or deploy on Vercel to submit emails.';
+        }
+      } catch (err) {
+        console.error('Contact Form Submission Error:', err);
+      } finally {
+        if (isSuccess) {
+          formFeedback.className = 'form-feedback-message success mt-3';
+          formFeedback.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i>Message sent successfully! I’ll get back to you soon.';
           formFeedback.classList.remove('d-none');
-          
           contactForm.reset();
         } else {
-          formFeedback.className = "form-feedback-message error";
-          formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>An error occurred. Please verify your details.';
+          formFeedback.className = 'form-feedback-message error mt-3';
+          formFeedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-2"></i>${errorMessage}`;
           formFeedback.classList.remove('d-none');
         }
-        
-        // Reset submit button state
+
+        // Re-enable submit button and restore text
         submitBtn.disabled = false;
-        submitBtn.innerHTML = initialBtnText;
-        
-        // Clear message feedback alert after delay
-        setTimeout(() => {
-          formFeedback.classList.add('d-none');
-        }, 6000);
-        
-      }, 1500);
+        submitBtn.innerHTML = initialBtnHtml;
+      }
     });
   }
 

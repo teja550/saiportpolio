@@ -1,0 +1,13 @@
+{
+  "name": "sai-teja-portfolio",
+  "version": "1.0.0",
+  "description": "Professional Portfolio Website of Nagaram Sai Tejachary",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "npx serve ."
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.13"
+  }
+}
