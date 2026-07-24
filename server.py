@@ -10,6 +10,7 @@ import urllib.request
 import urllib.error
 import os
 import re
+import traceback
 
 PORT = 3000
 
@@ -52,8 +53,11 @@ class PortfolioHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             message = str(data.get('message', '')).strip()
             bot_check = str(data.get('bot_check', '')).strip()
 
+            print(f"[Server POST /api/contact] Name: {name}, Email: {email}, Subject: {subject}")
+
             # 1. Honeypot check
             if bot_check:
+                print("[Server] Bot check triggered.")
                 self._send_json(200, {"success": True, "message": "Message sent successfully! I’ll get back to you soon."})
                 return
 
@@ -72,12 +76,20 @@ class PortfolioHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             web3_key = os.environ.get('WEB3FORMS_ACCESS_KEY')
             resend_key = os.environ.get('RESEND_API_KEY')
 
+            headers = {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            }
+
             # Provider 1: Web3Forms
             if web3_key:
+                print("[Server] Sending via Web3Forms API...")
                 payload = json.dumps({
                     "access_key": web3_key,
                     "name": name,
                     "email": email,
+                    "replyto": email,
                     "subject": f"Portfolio Contact: {subject}",
                     "message": message,
                     "from_name": f"{name} (Portfolio Form)"
@@ -86,13 +98,14 @@ class PortfolioHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 req = urllib.request.Request(
                     "https://api.web3forms.com/submit",
                     data=payload,
-                    headers={"Content-Type": "application/json", "Accept": "application/json"}
+                    headers=headers
                 )
 
                 try:
                     with urllib.request.urlopen(req) as resp:
                         res_data = json.loads(resp.read().decode('utf-8'))
                         if res_data.get('success'):
+                            print("[Server] Web3Forms success!")
                             self._send_json(200, {"success": True, "message": "Message sent successfully! I’ll get back to you soon."})
                             return
                 except Exception as e:
@@ -100,6 +113,9 @@ class PortfolioHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
             # Provider 2: Resend
             if resend_key:
+                print("[Server] Sending via Resend API...")
+                resend_headers = dict(headers)
+                resend_headers["Authorization"] = f"Bearer {resend_key}"
                 payload = json.dumps({
                     "from": "Portfolio Contact Form <onboarding@resend.dev>",
                     "to": [recipient_email],
@@ -111,21 +127,20 @@ class PortfolioHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 req = urllib.request.Request(
                     "https://api.resend.com/emails",
                     data=payload,
-                    headers={
-                        "Authorization": f"Bearer {resend_key}",
-                        "Content-Type": "application/json"
-                    }
+                    headers=resend_headers
                 )
 
                 try:
                     with urllib.request.urlopen(req) as resp:
                         if resp.status in (200, 201):
+                            print("[Server] Resend success!")
                             self._send_json(200, {"success": True, "message": "Message sent successfully! I’ll get back to you soon."})
                             return
                 except Exception as e:
                     print(f"[Resend Error] {e}")
 
             # Provider 3: FormSubmit Direct Delivery (Default Zero-Config Fallback)
+            print(f"[Server] Sending direct to FormSubmit ({recipient_email})...")
             payload = json.dumps({
                 "name": name,
                 "email": email,
@@ -137,16 +152,22 @@ class PortfolioHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             req = urllib.request.Request(
                 f"https://formsubmit.co/ajax/{recipient_email}",
                 data=payload,
-                headers={"Content-Type": "application/json", "Accept": "application/json"}
+                headers=headers
             )
 
             try:
                 with urllib.request.urlopen(req) as resp:
+                    resp_body = resp.read().decode('utf-8')
+                    print(f"[Server FormSubmit Response Status] {resp.status}: {resp_body}")
                     if resp.status == 200:
                         self._send_json(200, {"success": True, "message": "Message sent successfully! I'll get back to you soon."})
                         return
+            except urllib.error.HTTPError as e:
+                err_body = e.read().decode('utf-8') if e.fp else ''
+                print(f"[FormSubmit HTTPError {e.code}] {e.reason}: {err_body}")
             except Exception as e:
                 print(f"[FormSubmit Error] {e}")
+                traceback.print_exc()
 
             self._send_json(500, {
                 "success": False,

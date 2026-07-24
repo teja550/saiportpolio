@@ -3,7 +3,6 @@
 // Contact Form Submission & Email Delivery Handler with Reply-To support
 // ==============================================================================
 
-// Simple in-memory rate limiting map for Vercel lambdas
 const rateLimitMap = new Map();
 
 export default async function handler(req, res) {
@@ -230,13 +229,15 @@ export default async function handler(req, res) {
       });
     }
 
-    // PROVIDER 4: FORMSUBMIT DIRECT DELIVERY TO GMAIL (Default Zero-Config Fallback)
+    // PROVIDER 4: FORMSUBMIT DIRECT DELIVERY TO GMAIL (Default Fallback)
     console.log('[API /api/contact] Dispatching direct to Gmail recipient via FormSubmit:', recipientEmail);
     const formSubmitRes = await fetch(`https://formsubmit.co/ajax/${recipientEmail}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Referer': req.headers.referer || req.headers.origin || 'https://nagaramsaiteja.github.io/',
       },
       body: JSON.stringify({
         name: trimmedName,
@@ -248,15 +249,22 @@ export default async function handler(req, res) {
     });
 
     const formSubmitData = await formSubmitRes.json().catch(() => ({}));
-    if (formSubmitRes.ok) {
-      console.log('[API /api/contact] Direct FormSubmit email delivered to:', recipientEmail);
+    console.log('[API /api/contact] FormSubmit response:', formSubmitData);
+
+    if (formSubmitRes.ok && formSubmitData.success !== 'false') {
       return res.status(200).json({
         success: true,
         message: "Message sent successfully! I'll get back to you soon.",
       });
     }
 
-    console.error('[API /api/contact] FormSubmit error:', formSubmitData);
+    if (formSubmitData.message && formSubmitData.message.includes('Activation')) {
+      return res.status(200).json({
+        success: true,
+        message: "Please check your Gmail inbox (nagaramsaiteja57@gmail.com) and click 'Activate Form' to start receiving messages!",
+      });
+    }
+
     return res.status(500).json({
       success: false,
       error: 'Failed to send message. Please try again.',
