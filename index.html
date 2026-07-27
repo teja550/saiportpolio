@@ -31,7 +31,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -72,6 +72,15 @@
     ]
   }
   </script>
+  <!-- React 18, ReactDOM 18, GSAP 3, Framer Motion & Babel Standalone -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-theme">
 
@@ -87,16 +96,8 @@
   <!-- Ambient Particle Background -->
   <canvas id="particleCanvas"></canvas>
 
-  <!-- Preloader -->
-  <div class="preloader" id="preloader">
-    <div class="loader-content">
-      <div class="loader-logo">NST</div>
-      <div class="loader-bar-container">
-        <div class="loader-bar"></div>
-      </div>
-      <div class="loader-text">Loading Excellence...</div>
-    </div>
-  </div>
+  <!-- Fullscreen AI Portal Intro Container (React Mounted) -->
+  <div id="intro-root"></div>
 
   <!-- Sticky Navbar -->
   <nav class="navbar navbar-expand-lg sticky-top main-navbar">
@@ -222,77 +223,96 @@
     </div>
   </header>
 
-  <!-- ABOUT ME SECTION -->
+  <!-- ABOUT ME & WHAT I DO SECTION -->
   <section id="about" class="about-section py-6 position-relative">
     <div class="container position-relative z-2">
-      <div class="section-header text-center mb-6 reveal-fade-up">
-        <span class="section-subtitle text-gradient-primary">Discover More</span>
-        <h2 class="section-title">About Me</h2>
-        <div class="section-title-bar mx-auto"></div>
-      </div>
-      
-      <div class="row align-items-center gy-5">
-        <!-- About Left Layout: Glass Grid of Details -->
-        <div class="col-lg-5 reveal-fade-up">
-          <div class="row g-4">
-            <div class="col-6">
-              <div class="about-info-card pointer-glow text-center p-4">
-                <div class="info-card-icon mb-3 text-primary-glow">
-                  <i class="fa-solid fa-user-tie"></i>
-                </div>
-                <h3 class="info-card-title h6 mb-1 text-muted">Full Name</h3>
-                <p class="info-card-desc fw-semibold mb-0">N. Sai Tejachary</p>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="about-info-card pointer-glow text-center p-4">
-                <div class="info-card-icon mb-3 text-secondary-glow">
-                  <i class="fa-solid fa-location-dot"></i>
-                </div>
-                <h3 class="info-card-title h6 mb-1 text-muted">Location</h3>
-                <p class="info-card-desc fw-semibold mb-0">Kadapa, AP</p>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="about-info-card pointer-glow text-center p-4">
-                <div class="info-card-icon mb-3 text-accent-glow">
-                  <i class="fa-solid fa-graduation-cap"></i>
-                </div>
-                <h3 class="info-card-title h6 mb-1 text-muted">Education</h3>
-                <p class="info-card-desc fw-semibold mb-0">B.Tech AI & ML</p>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="about-info-card pointer-glow text-center p-4">
-                <div class="info-card-icon mb-3 text-gradient-pink">
-                  <i class="fa-solid fa-star"></i>
-                </div>
-                <h3 class="info-card-title h6 mb-1 text-muted">CGPA</h3>
-                <p class="info-card-desc fw-semibold mb-0">7.45 / 10</p>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="row gy-5">
         
-        <!-- About Right Narrative Text -->
-        <div class="col-lg-7 reveal-fade-up">
-          <div class="about-narrative-card p-5">
-            <h3 class="narrative-heading mb-4 text-gradient-primary">Engineering Solutions Through Code & Insights</h3>
-            <p class="narrative-text mb-4">
-              I am a passionate computer science undergraduate specializing in **Artificial Intelligence and Machine Learning** at Siddhartha Institute of Science and Technology. Throughout my studies, my curiosity driven approach directed me to two key domains: **Python Full Stack Web Development** and **Data Analytics**.
-            </p>
-            <p class="narrative-text mb-4">
-              I love engineering backend logic with Python and SQL, structuring frontends using JavaScript and modern styling frameworks, and applying computational techniques to extract hidden insights from complex datasets. My objective is to bridge the gap between web architecture and data analysis to solve real business challenges.
-            </p>
-            
-            <div class="about-career-goal p-4 mt-4 glass-inset-accent">
-              <h4 class="h6 text-gradient-accent fw-bold mb-2"><i class="fa-solid fa-bullseye me-2"></i>Career Goal</h4>
-              <p class="mb-0">
-                To become a highly skilled Python Full Stack Developer, contributing to innovative, high-impact software solutions while continuously embracing and mastering modern, cutting-edge technologies.
-              </p>
+        <!-- Left Column: ABOUT ME -->
+        <div class="col-lg-5 reveal-fade-up">
+          <span class="section-subtitle text-uppercase text-cyan fw-bold tracking-widest mb-2 d-block">About Me</span>
+          <h2 class="section-title display-5 fw-extrabold mb-4">Get to know <span class="text-gradient-purple-cyan">me!</span></h2>
+          
+          <p class="about-narrative-lead mb-4 text-secondary">
+            I am a passionate and motivated B.Tech 4th Year CSE student with a strong foundation in programming, data analysis, and problem-solving. I enjoy building real-world solutions and turning ideas into impactful applications.
+          </p>
+
+          <div class="about-details-list d-flex flex-column gap-3 mb-4">
+            <div class="d-flex align-items-center gap-3">
+              <span class="detail-icon-circle text-pink"><i class="fa-solid fa-user"></i></span>
+              <div><strong class="text-white">Name:</strong> <span class="text-secondary ms-1">Nagaram Sai Tejachary</span></div>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <span class="detail-icon-circle text-cyan"><i class="fa-solid fa-location-dot"></i></span>
+              <div><strong class="text-white">Location:</strong> <span class="text-secondary ms-1">Kadapa, Andhra Pradesh, India</span></div>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <span class="detail-icon-circle text-purple"><i class="fa-solid fa-envelope"></i></span>
+              <div><strong class="text-white">Email:</strong> <a href="mailto:nagaramsaiteja57@gmail.com" class="text-secondary ms-1">nagaramsaiteja57@gmail.com</a></div>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <span class="detail-icon-circle text-primary"><i class="fa-solid fa-user-group"></i></span>
+              <div><strong class="text-white">Available:</strong> <span class="text-secondary ms-1">Open to Work & Internships</span></div>
             </div>
           </div>
+
+          <a href="#skills" class="btn btn-premium btn-outline-glass px-4 py-3">
+            View More About Me
+          </a>
         </div>
+
+        <!-- Right Column: WHAT I DO -->
+        <div class="col-lg-7 reveal-fade-up">
+          <span class="section-subtitle text-uppercase text-cyan fw-bold tracking-widest mb-2 d-block">What I Do</span>
+          <div class="row g-4 mt-1">
+            
+            <!-- Service Card 1: Python Development -->
+            <div class="col-sm-6">
+              <div class="service-card pointer-glow p-4">
+                <div class="service-icon-box mb-3 text-cyan">
+                  <i class="fa-brands fa-python"></i>
+                </div>
+                <h3 class="service-title h5 mb-2 text-white">Python Development</h3>
+                <p class="service-desc text-muted mb-0">Building efficient and scalable solutions with Python and its libraries.</p>
+              </div>
+            </div>
+
+            <!-- Service Card 2: Data Analysis -->
+            <div class="col-sm-6">
+              <div class="service-card pointer-glow p-4">
+                <div class="service-icon-box mb-3 text-purple">
+                  <i class="fa-solid fa-chart-column"></i>
+                </div>
+                <h3 class="service-title h5 mb-2 text-white">Data Analysis</h3>
+                <p class="service-desc text-muted mb-0">extracting data insights and patterns and deriving actionable results.</p>
+              </div>
+            </div>
+
+            <!-- Service Card 3: Data Visualization -->
+            <div class="col-sm-6">
+              <div class="service-card pointer-glow p-4">
+                <div class="service-icon-box mb-3 text-warning">
+                  <i class="fa-solid fa-chart-pie"></i>
+                </div>
+                <h3 class="service-title h5 mb-2 text-white">Data Visualization</h3>
+                <p class="service-desc text-muted mb-0">Creating meaningful visuals to communicate insights clearly & fast.</p>
+              </div>
+            </div>
+
+            <!-- Service Card 4: SQL & Databases -->
+            <div class="col-sm-6">
+              <div class="service-card pointer-glow p-4">
+                <div class="service-icon-box mb-3 text-accent">
+                  <i class="fa-solid fa-database"></i>
+                </div>
+                <h3 class="service-title h5 mb-2 text-white">SQL & Databases</h3>
+                <p class="service-desc text-muted mb-0">Writing optimized SQL queries and managing relational databases.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -300,186 +320,118 @@
   <!-- SKILLS SECTION -->
   <section id="skills" class="skills-section py-6 bg-glass-opacity position-relative">
     <div class="container position-relative z-2">
-      <div class="section-header text-center mb-6 reveal-fade-up">
-        <span class="section-subtitle text-gradient-accent">What I Do Best</span>
-        <h2 class="section-title">My Skillset</h2>
+      <div class="section-header text-center mb-5 reveal-fade-up">
+        <span class="section-subtitle text-uppercase text-cyan fw-bold tracking-widest mb-2 d-block">My Skills</span>
+        <h2 class="section-title display-5 fw-extrabold mb-3">Technologies & Tools I <span class="text-gradient-purple-cyan">Work With</span></h2>
         <div class="section-title-bar mx-auto"></div>
       </div>
-      
-      <!-- Skill Categories Tab-like Grid -->
+
+      <!-- 10 Tech Badges Grid (Single Horizontal Grid) -->
+      <div class="tech-badges-grid d-flex flex-wrap justify-content-center gap-3 mb-5 reveal-fade-up">
+        <div class="tech-grid-card pointer-glow text-center p-3">
+          <div class="tech-grid-icon mb-2 text-warning"><i class="fa-brands fa-python"></i></div>
+          <span class="tech-grid-name text-white fw-medium">Python</span>
+        </div>
+        <div class="tech-grid-card pointer-glow text-center p-3">
+          <div class="tech-grid-icon mb-2 text-orange"><i class="fa-solid fa-database"></i></div>
+          <span class="tech-grid-name text-white fw-medium">SQL</span>
+        </div>
+        <div class="tech-grid-card pointer-glow text-center p-3">
+          <div class="tech-grid-icon mb-2 text-purple"><i class="fa-solid fa-table-cells"></i></div>
+          <span class="tech-grid-name text-white fw-medium">Pandas</span>
+        </div>
+        <div class="tech-grid-card pointer-glow text-center p-3">
+          <div class="tech-grid-icon mb-2 text-primary"><i class="fa-solid fa-cubes"></i></div>
+          <span class="tech-grid-name text-white fw-medium">NumPy</span>
+        </div>
+        <div class="tech-grid-card pointer-glow text-center p-3">
+          <div class="tech-grid-icon mb-2 text-info"><i class="fa-solid fa-chart-line"></i></div>
+          <span class="tech-grid-name text-white fw-medium">Matplotlib</span>
+        </div>
+        <div class="tech-grid-card pointer-glow text-center p-3">
+          <div class="tech-grid-icon mb-2 text-cyan"><i class="fa-solid fa-water"></i></div>
+          <span class="tech-grid-name text-white fw-medium">Seaborn</span>
+        </div>
+        <div class="tech-grid-card pointer-glow text-center p-3">
+          <div class="tech-grid-icon mb-2 text-success"><i class="fa-solid fa-file-excel"></i></div>
+          <span class="tech-grid-name text-white fw-medium">Excel</span>
+        </div>
+        <div class="tech-grid-card pointer-glow text-center p-3">
+          <div class="tech-grid-icon mb-2 text-danger"><i class="fa-brands fa-html5"></i></div>
+          <span class="tech-grid-name text-white fw-medium">HTML</span>
+        </div>
+        <div class="tech-grid-card pointer-glow text-center p-3">
+          <div class="tech-grid-icon mb-2 text-primary"><i class="fa-brands fa-css3-alt"></i></div>
+          <span class="tech-grid-name text-white fw-medium">CSS</span>
+        </div>
+        <div class="tech-grid-card pointer-glow text-center p-3">
+          <div class="tech-grid-icon mb-2 text-warning"><i class="fa-solid fa-book-open"></i></div>
+          <span class="tech-grid-name text-white fw-medium">Jupyter</span>
+        </div>
+      </div>
+
+      <!-- Skill Category Progress Cards (3 Columns) -->
       <div class="row g-4 justify-content-center reveal-fade-up">
-        
-        <!-- Programming -->
-        <div class="col-md-6 col-lg-4">
-          <div class="skill-category-card pointer-glow p-4">
-            <h3 class="category-title h5 mb-4 text-gradient-primary"><i class="fa-solid fa-code me-2"></i>Programming</h3>
-            <div class="skills-list">
-              <!-- Skill Item -->
-              <div class="skill-progress-item mb-3">
-                <div class="d-flex justify-content-between mb-1">
-                  <span class="skill-name">Python</span>
-                  <span class="skill-percentage">85%</span>
-                </div>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" style="width: 0%;" data-progress="85"></div>
-                </div>
-              </div>
-              <!-- Skill Item -->
-              <div class="skill-progress-item mb-3">
-                <div class="d-flex justify-content-between mb-1">
-                  <span class="skill-name">SQL</span>
-                  <span class="skill-80">80%</span>
-                </div>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" style="width: 0%;" data-progress="80"></div>
-                </div>
-              </div>
-              <!-- Skill Item -->
-              <div class="skill-progress-item mb-3">
-                <div class="d-flex justify-content-between mb-1">
-                  <span class="skill-name">JavaScript</span>
-                  <span class="skill-percentage">75%</span>
-                </div>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" style="width: 0%;" data-progress="75"></div>
-                </div>
-              </div>
-              <!-- Skill Item -->
-              <div class="skill-progress-item mb-3">
-                <div class="d-flex justify-content-between mb-1">
-                  <span class="skill-name">HTML5 / CSS3</span>
-                  <span class="skill-percentage">85%</span>
-                </div>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" style="width: 0%;" data-progress="85"></div>
-                </div>
-              </div>
+        <div class="col-md-4">
+          <div class="skill-category-pill-card pointer-glow p-4 d-flex flex-column gap-3">
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="fw-bold text-white"><i class="fa-solid fa-code me-2 text-primary"></i>Programming</span>
+              <span class="fw-extrabold text-white">87%</span>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill fill-cyan" style="width: 0%;" data-progress="87"></div>
             </div>
           </div>
         </div>
 
-        <!-- Data Analytics -->
-        <div class="col-md-6 col-lg-4">
-          <div class="skill-category-card pointer-glow p-4">
-            <h3 class="category-title h5 mb-4 text-gradient-secondary"><i class="fa-solid fa-chart-line me-2"></i>Data Analytics</h3>
-            <div class="skills-list">
-              <!-- Skill Item -->
-              <div class="skill-progress-item mb-3">
-                <div class="d-flex justify-content-between mb-1">
-                  <span class="skill-name">Excel (Advanced)</span>
-                  <span class="skill-percentage">80%</span>
-                </div>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" style="width: 0%;" data-progress="80"></div>
-                </div>
-              </div>
-              <!-- Skill Item -->
-              <div class="skill-progress-item mb-3">
-                <div class="d-flex justify-content-between mb-1">
-                  <span class="skill-name">Power BI</span>
-                  <span class="skill-percentage">75%</span>
-                </div>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" style="width: 0%;" data-progress="75"></div>
-                </div>
-              </div>
-              <!-- Skill Item -->
-              <div class="skill-progress-item mb-3">
-                <div class="d-flex justify-content-between mb-1">
-                  <span class="skill-name">Pandas / NumPy</span>
-                  <span class="skill-percentage">80%</span>
-                </div>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" style="width: 0%;" data-progress="80"></div>
-                </div>
-              </div>
-              <!-- Skill Item -->
-              <div class="skill-progress-item mb-3">
-                <div class="d-flex justify-content-between mb-1">
-                  <span class="skill-name">Matplotlib / Seaborn</span>
-                  <span class="skill-percentage">85%</span>
-                </div>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" style="width: 0%;" data-progress="85"></div>
-                </div>
-              </div>
+        <div class="col-md-4">
+          <div class="skill-category-pill-card pointer-glow p-4 d-flex flex-column gap-3">
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="fw-bold text-white"><i class="fa-solid fa-chart-column me-2 text-purple"></i>Data Analysis</span>
+              <span class="fw-extrabold text-white">90%</span>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill fill-purple" style="width: 0%;" data-progress="90"></div>
             </div>
           </div>
         </div>
 
-        <!-- Web Development & Databases -->
-        <div class="col-md-6 col-lg-4">
-          <div class="skill-category-card pointer-glow p-4">
-            <h3 class="category-title h5 mb-4 text-gradient-accent"><i class="fa-solid fa-laptop-code me-2"></i>Web & Database</h3>
-            <div class="skills-list">
-              <!-- Skill Item -->
-              <div class="skill-progress-item mb-3">
-                <div class="d-flex justify-content-between mb-1">
-                  <span class="skill-name">Bootstrap 5</span>
-                  <span class="skill-percentage">85%</span>
-                </div>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" style="width: 0%;" data-progress="85"></div>
-                </div>
-              </div>
-              <!-- Skill Item -->
-              <div class="skill-progress-item mb-3">
-                <div class="d-flex justify-content-between mb-1">
-                  <span class="skill-name">Responsive Design</span>
-                  <span class="skill-percentage">90%</span>
-                </div>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" style="width: 0%;" data-progress="90"></div>
-                </div>
-              </div>
-              <!-- Skill Item -->
-              <div class="skill-progress-item mb-3">
-                <div class="d-flex justify-content-between mb-1">
-                  <span class="skill-name">DOM Manipulation</span>
-                  <span class="skill-percentage">80%</span>
-                </div>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" style="width: 0%;" data-progress="80"></div>
-                </div>
-              </div>
-              <!-- Skill Item -->
-              <div class="skill-progress-item mb-3">
-                <div class="d-flex justify-content-between mb-1">
-                  <span class="skill-name">Relational Databases (SQL)</span>
-                  <span class="skill-percentage">80%</span>
-                </div>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" style="width: 0%;" data-progress="80"></div>
-                </div>
-              </div>
+        <div class="col-md-4">
+          <div class="skill-category-pill-card pointer-glow p-4 d-flex flex-column gap-3">
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="fw-bold text-white"><i class="fa-solid fa-chart-line me-2 text-cyan"></i>Visualization</span>
+              <span class="fw-extrabold text-white">85%</span>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill fill-teal" style="width: 0%;" data-progress="85"></div>
             </div>
           </div>
         </div>
       </div>
-      
-      <!-- Developer Tools Row -->
-      <div class="row mt-5 justify-content-center reveal-fade-up">
-        <div class="col-lg-10">
-          <div class="tools-bar-card pointer-glow p-4 d-flex flex-wrap align-items-center justify-content-around gap-4 text-center">
-            <span class="tools-title text-uppercase fw-bold text-muted mb-lg-0"><i class="fa-solid fa-screwdriver-wrench me-2 text-primary-glow"></i>Workflow Tools:</span>
-            <div class="tool-badge-item"><i class="fa-solid fa-code me-1 text-primary"></i>VS Code</div>
-            <div class="tool-badge-item"><i class="fa-brands fa-git-alt me-1 text-danger"></i>Git</div>
-            <div class="tool-badge-item"><i class="fa-brands fa-github me-1 text-dark-light"></i>GitHub</div>
-            <div class="tool-badge-item"><i class="fa-solid fa-book-open me-1 text-warning"></i>Jupyter Notebook</div>
-          </div>
-        </div>
-      </div>
-      
+
     </div>
   </section>
 
   <!-- PROJECTS SECTION -->
   <section id="projects" class="projects-section py-6 position-relative">
     <div class="container position-relative z-2">
-      <div class="section-header text-center mb-6 reveal-fade-up">
+      <div class="section-header text-center mb-4 reveal-fade-up">
         <span class="section-subtitle text-gradient-primary">Featured Work</span>
         <h2 class="section-title">My Projects</h2>
         <div class="section-title-bar mx-auto"></div>
+      </div>
+
+      <!-- 3D Rotate & Layout View Switcher -->
+      <div class="project-view-switcher d-flex justify-content-center flex-wrap gap-2 mb-5 reveal-fade-up">
+        <button class="btn btn-sm btn-mode-switch active" id="btnModeCoverflow" data-mode="coverflow">
+          <i class="fa-solid fa-cube me-2"></i>3D Rotate Flow
+        </button>
+        <button class="btn btn-sm btn-mode-switch" id="btnModeCards" data-mode="cards">
+          <i class="fa-solid fa-layer-group me-2"></i>3D Stack
+        </button>
+        <button class="btn btn-sm btn-mode-switch" id="btnModeCarousel" data-mode="carousel">
+          <i class="fa-solid fa-sliders me-2"></i>Carousel
+        </button>
       </div>
       
       <!-- Slider Container Wrapper -->
@@ -684,234 +636,137 @@
     </div>
   </section>
 
-  <!-- ACHIEVEMENTS SECTION (Animated Counters) -->
-  <section class="achievements-section py-5 position-relative overflow-hidden">
-    <div class="container position-relative z-2">
-      <div class="row g-4 justify-content-center text-center">
-        <!-- Counter 1 -->
-        <div class="col-6 col-md-3 reveal-fade-up">
-          <div class="counter-card pointer-glow p-4">
-            <div class="counter-icon mb-3 text-primary-glow">
-              <i class="fa-solid fa-diagram-project"></i>
-            </div>
-            <h3 class="counter-number display-5 fw-extrabold mb-1 text-gradient-primary" data-target="3">0</h3>
-            <span class="counter-plus display-5 fw-extrabold mb-1 text-gradient-primary">+</span>
-            <p class="counter-label text-muted text-uppercase fw-bold mb-0">Projects Completed</p>
-          </div>
-        </div>
 
-        <!-- Counter 2 -->
-        <div class="col-6 col-md-3 reveal-fade-up">
-          <div class="counter-card pointer-glow p-4">
-            <div class="counter-icon mb-3 text-secondary-glow">
-              <i class="fa-solid fa-award"></i>
-            </div>
-            <h3 class="counter-number display-5 fw-extrabold mb-1 text-gradient-secondary" data-target="1">0</h3>
-            <span class="counter-plus display-5 fw-extrabold mb-1 text-gradient-secondary">+</span>
-            <p class="counter-label text-muted text-uppercase fw-bold mb-0">Certificates Earned</p>
-          </div>
-        </div>
-
-        <!-- Counter 3 -->
-        <div class="col-6 col-md-3 reveal-fade-up">
-          <div class="counter-card pointer-glow p-4">
-            <div class="counter-icon mb-3 text-accent-glow">
-              <i class="fa-solid fa-microchip"></i>
-            </div>
-            <h3 class="counter-number display-5 fw-extrabold mb-1 text-gradient-accent" data-target="10">0</h3>
-            <span class="counter-plus display-5 fw-extrabold mb-1 text-gradient-accent">+</span>
-            <p class="counter-label text-muted text-uppercase fw-bold mb-0">Technologies Learned</p>
-          </div>
-        </div>
-
-        <!-- Counter 4 -->
-        <div class="col-6 col-md-3 reveal-fade-up">
-          <div class="counter-card pointer-glow p-4">
-            <div class="counter-icon mb-3 text-gradient-pink">
-              <i class="fa-solid fa-hourglass-half"></i>
-            </div>
-            <h3 class="counter-number display-5 fw-extrabold mb-1 text-gradient-pink" data-target="500">0</h3>
-            <span class="counter-plus display-5 fw-extrabold mb-1 text-gradient-pink">+</span>
-            <p class="counter-label text-muted text-uppercase fw-bold mb-0">Coding Hours</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- CONTACT SECTION -->
   <section id="contact" class="contact-section py-6 position-relative">
     <div class="hero-glow-blob-2"></div>
     <div class="container position-relative z-2">
-      <div class="section-header text-center mb-6 reveal-fade-up">
-        <span class="section-subtitle text-gradient-accent">Let's Connect</span>
-        <h2 class="section-title">Get in Touch</h2>
+      <div class="section-header text-center mb-5 reveal-fade-up">
+        <span class="section-subtitle text-uppercase text-cyan fw-bold tracking-widest mb-2 d-block">Get in Touch</span>
+        <h2 class="section-title display-5 fw-extrabold mb-3">Let's Connect</h2>
         <div class="section-title-bar mx-auto"></div>
       </div>
       
-      <div class="row justify-content-center gy-5">
-        <div class="col-lg-10">
-          <div class="luxury-contact-glass pointer-glow p-5">
-            <div class="row gy-5">
-              
-              <!-- Left: Contact Information -->
-              <div class="col-md-5 reveal-fade-up">
-                <h3 class="contact-card-title h4 mb-4 text-gradient-primary">Contact Details</h3>
-                
-                <div class="contact-info-list d-flex flex-column gap-4">
-                  <!-- Info Item -->
-                  <div class="d-flex align-items-center gap-3">
-                    <div class="contact-icon-box text-primary-glow">
-                      <i class="fa-solid fa-phone"></i>
-                    </div>
-                    <div>
-                      <h4 class="contact-info-label text-muted mb-0">Phone</h4>
-                      <a href="tel:+917075330927" class="contact-info-val fw-semibold">+91 7075330927</a>
-                    </div>
-                  </div>
-                  <!-- Info Item -->
-                  <div class="d-flex align-items-center gap-3">
-                    <div class="contact-icon-box text-secondary-glow">
-                      <i class="fa-solid fa-envelope"></i>
-                    </div>
-                    <div>
-                      <h4 class="contact-info-label text-muted mb-0">Email</h4>
-                      <a href="mailto:nagaramsaiteja57@gmail.com" class="contact-info-val fw-semibold">nagaramsaiteja57@gmail.com</a>
-                    </div>
-                  </div>
-                  <!-- Info Item -->
-                  <div class="d-flex align-items-center gap-3">
-                    <div class="contact-icon-box text-accent-glow">
-                      <i class="fa-brands fa-linkedin"></i>
-                    </div>
-                    <div>
-                      <h4 class="contact-info-label text-muted mb-0">LinkedIn</h4>
-                      <a href="https://linkedin.com/in/nsai-teja" target="_blank" rel="noopener" class="contact-info-val fw-semibold">linkedin.com/in/nsai-teja</a>
-                    </div>
-                  </div>
-                  <!-- Info Item -->
-                  <div class="d-flex align-items-center gap-3">
-                    <div class="contact-icon-box text-gradient-pink">
-                      <i class="fa-solid fa-location-dot"></i>
-                    </div>
-                    <div>
-                      <h4 class="contact-info-label text-muted mb-0">Location</h4>
-                      <span class="contact-info-val fw-semibold">Kadapa, Andhra Pradesh</span>
-                    </div>
-                  </div>
+      <div class="row align-items-center gy-5 reveal-fade-up">
+        
+        <!-- Left: Contact Information Card -->
+        <div class="col-lg-4">
+          <div class="luxury-contact-glass pointer-glow p-4 h-100">
+            <h3 class="contact-card-title h5 mb-4 text-gradient-primary">Contact Details</h3>
+            
+            <div class="contact-info-list d-flex flex-column gap-4">
+              <!-- Item 1: Email -->
+              <div class="d-flex align-items-center gap-3">
+                <div class="contact-icon-box text-primary">
+                  <i class="fa-solid fa-envelope"></i>
                 </div>
-                
-                <!-- Google Maps Placeholder / Dynamic Image -->
-                <div class="map-placeholder-box mt-5 position-relative overflow-hidden">
-                  <iframe 
-                    title="Nagaram Sai Tejachary Location Map"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d123512.44321303867!2d78.77536968798991!3d14.478950854497334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb37213c4805f15%3A0xa196944e839e944!2sKadapa%2C%20Andhra%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
-                    width="100%" 
-                    height="180" 
-                    style="border:0; filter: grayscale(100%) invert(90%) contrast(120%);" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                  </iframe>
-                  <div class="map-overlay-glow"></div>
+                <div class="text-truncate">
+                  <a href="mailto:nagaramsaiteja57@gmail.com" class="contact-info-val fw-semibold text-white small">nagaramsaiteja57@gmail.com</a>
                 </div>
               </div>
-              
-              <!-- Right: Form -->
-              <div class="col-md-7 reveal-fade-up">
-                <h3 class="contact-card-title h4 mb-4 text-gradient-accent">Send a Message</h3>
-                <form id="contactForm" class="contact-form-glass">
-                  <!-- Honeypot Anti-Spam Field (hidden from genuine visitors) -->
-                  <div class="d-none" aria-hidden="true">
-                    <input type="text" id="contactHoneypot" name="bot_check" tabindex="-1" autocomplete="off">
-                  </div>
-                  <div class="row g-3">
-                    <div class="col-sm-6">
-                      <div class="form-group-custom position-relative">
-                        <input type="text" id="contactName" name="name" class="form-control-custom w-100" required placeholder=" ">
-                        <label for="contactName" class="form-label-custom">Your Name</label>
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="form-group-custom position-relative">
-                        <input type="email" id="contactEmail" name="email" class="form-control-custom w-100" required placeholder=" ">
-                        <label for="contactEmail" class="form-label-custom">Your Email</label>
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="form-group-custom position-relative">
-                        <input type="text" id="contactSubject" name="subject" class="form-control-custom w-100" required placeholder=" ">
-                        <label for="contactSubject" class="form-label-custom">Subject</label>
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="form-group-custom position-relative">
-                        <textarea id="contactMessage" name="message" rows="4" class="form-control-custom w-100" required placeholder=" "></textarea>
-                        <label for="contactMessage" class="form-label-custom">Your Message</label>
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <button type="submit" id="submitBtn" class="btn btn-premium btn-gradient w-100 py-3 mt-2">
-                        <i class="fa-solid fa-paper-plane me-2"></i>Send Message
-                      </button>
-                      <div class="form-feedback-message mt-3 d-none" id="formFeedback"></div>
-                    </div>
-                  </div>
-                </form>
+
+              <!-- Item 2: Phone -->
+              <div class="d-flex align-items-center gap-3">
+                <div class="contact-icon-box text-cyan">
+                  <i class="fa-solid fa-phone"></i>
+                </div>
+                <div>
+                  <a href="tel:+917075330927" class="contact-info-val fw-semibold text-white small">+91 7075330927</a>
+                </div>
               </div>
-              
+
+              <!-- Item 3: Location -->
+              <div class="d-flex align-items-center gap-3">
+                <div class="contact-icon-box text-warning">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div>
+                  <span class="contact-info-val fw-semibold text-white small">Kadapa, Andhra Pradesh, India</span>
+                </div>
+              </div>
+
+              <!-- Item 4: Availability -->
+              <div class="d-flex align-items-center gap-3">
+                <div class="contact-icon-box text-purple">
+                  <i class="fa-solid fa-user-group"></i>
+                </div>
+                <div>
+                  <span class="contact-info-val fw-semibold text-white small">Open for Internships & Full-time</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Middle: Form Card -->
+        <div class="col-lg-5">
+          <div class="luxury-contact-glass pointer-glow p-4 h-100">
+            <h3 class="contact-card-title h5 mb-4 text-gradient-accent">Send Me a Message</h3>
+            <form id="contactForm" class="contact-form-glass">
+              <div class="d-none" aria-hidden="true">
+                <input type="text" id="contactHoneypot" name="bot_check" tabindex="-1" autocomplete="off">
+              </div>
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <div class="form-group-custom position-relative">
+                    <input type="text" id="contactName" name="name" class="form-control-custom w-100" required placeholder="Your Name">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group-custom position-relative">
+                    <input type="email" id="contactEmail" name="email" class="form-control-custom w-100" required placeholder="Your Email">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-custom position-relative">
+                    <input type="text" id="contactSubject" name="subject" class="form-control-custom w-100" required placeholder="Subject">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-custom position-relative">
+                    <textarea id="contactMessage" name="message" rows="3" class="form-control-custom w-100" required placeholder="Your Message"></textarea>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button type="submit" id="submitBtn" class="btn btn-premium btn-gradient w-100 py-3 mt-1">
+                    <i class="fa-solid fa-paper-plane me-2"></i>Send Message
+                  </button>
+                  <div class="form-feedback-message mt-3 d-none" id="formFeedback"></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right: 3D Envelope Artwork -->
+        <div class="col-lg-3 text-center d-flex align-items-center justify-content-center">
+          <div class="contact-3d-wrapper">
+            <img src="assets/images/3d-contact.png" alt="3D Glowing Paper Plane Envelope Artwork" class="img-fluid contact-3d-img animate-float-slow">
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer class="footer py-5 position-relative overflow-hidden">
+  <footer class="footer py-4 position-relative overflow-hidden">
     <div class="container position-relative z-2">
-      <div class="row gy-4 align-items-center">
-        <!-- Left: Branding -->
-        <div class="col-md-4 text-center text-md-start">
-          <a class="footer-logo mb-3 d-inline-block text-gradient-primary fw-bold h4" href="#home">NST</a>
-          <p class="footer-summary text-muted mb-0 small">
-            Crafting scalable software and transforming raw datasets into valuable, actionable business decisions.
-          </p>
-        </div>
-        
-        <!-- Center: Quick Links -->
-        <div class="col-md-4 text-center">
-          <ul class="list-inline footer-links-list mb-0">
-            <li class="list-inline-item mx-2"><a href="#home" class="footer-link">Home</a></li>
-            <li class="list-inline-item mx-2"><a href="#about" class="footer-link">About</a></li>
-            <li class="list-inline-item mx-2"><a href="#skills" class="footer-link">Skills</a></li>
-            <li class="list-inline-item mx-2"><a href="#projects" class="footer-link">Projects</a></li>
-            <li class="list-inline-item mx-2"><a href="#contact" class="footer-link">Contact</a></li>
-          </ul>
-        </div>
-        
-        <!-- Right: Actions & Socials -->
-        <div class="col-md-4 text-center text-md-end">
-          <div class="footer-socials mb-3 d-flex justify-content-center justify-content-md-end gap-2">
-            <a href="https://linkedin.com/in/nsai-teja" target="_blank" rel="noopener" class="social-circle-link small-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a href="https://github.com/nagaramsaiteja" target="_blank" rel="noopener" class="social-circle-link small-icon" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-            <a href="mailto:nagaramsaiteja57@gmail.com" class="social-circle-link small-icon" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
-          </div>
-          <a href="assets/documents/resume.pdf" download="Nagaram_Sai_Tejachary_Resume.pdf" class="btn btn-sm btn-outline-glass py-2 px-3 small-btn-text">
-            <i class="fa-solid fa-cloud-arrow-down me-1"></i>Download Resume
-          </a>
-        </div>
-      </div>
-      
-      <hr class="footer-divider my-4">
-      
-      <!-- Bottom row -->
       <div class="row align-items-center">
-        <div class="col-sm-6 text-center text-sm-start mb-2 mb-sm-0">
-          <p class="copyright-txt mb-0 text-muted small">&copy; 2026 Nagaram Sai Tejachary. All rights reserved.</p>
+        <!-- Left: NST Logo -->
+        <div class="col-sm-4 text-center text-sm-start mb-2 mb-sm-0">
+          <a class="footer-logo text-gradient-primary fw-extrabold h4 mb-0" href="#home">NST</a>
         </div>
-        <div class="col-sm-6 text-center text-sm-end">
-          <p class="made-by-txt mb-0 text-muted small">Made with <i class="fa-solid fa-heart animate-heartbeat text-danger"></i> by Nagaram Sai Tejachary</p>
+        
+        <!-- Center: Copyright -->
+        <div class="col-sm-4 text-center mb-2 mb-sm-0">
+          <p class="copyright-txt mb-0 text-muted small">&copy; 2026 Nagaram Sai Tejachary. All Rights Reserved.</p>
+        </div>
+        
+        <!-- Right: Built with Python -->
+        <div class="col-sm-4 text-center text-sm-end">
+          <p class="made-by-txt mb-0 text-muted small">Built with <i class="fa-solid fa-heart text-danger mx-1"></i> & <span class="text-info fw-semibold">Python</span></p>
         </div>
       </div>
     </div>
@@ -932,6 +787,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Swiper 11 JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <!-- React Cinematic Intro Component -->
+  <script src="intro.js"></script>
   <!-- Custom JS -->
   <script src="script.js"></script>
 </body>

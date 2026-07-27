@@ -10,15 +10,19 @@ document.addEventListener('DOMContentLoaded', () => {
      1. PRELOADER & HERO ENTRANCE EFFECT
      -------------------------------------------------------------------------- */
   const preloader = document.getElementById('preloader');
-  
-  window.addEventListener('load', () => {
-    // Graceful fade out
-    setTimeout(() => {
-      preloader.classList.add('fade-out');
-      // Trigger reveal for elements inside the viewport on load
+  if (preloader) {
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        preloader.classList.add('fade-out');
+        triggerScrollReveal();
+      }, 800);
+    });
+  } else {
+    // If React cinematic intro is handling preloader, trigger scroll reveal on load
+    window.addEventListener('load', () => {
       triggerScrollReveal();
-    }, 800);
-  });
+    });
+  }
 
   /* --------------------------------------------------------------------------
      2. CUSTOM CURSOR
@@ -114,8 +118,14 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(typeEffect, typeSpeed);
   }
   
-  // Start typing
-  setTimeout(typeEffect, 1200);
+  let typingStarted = false;
+  function startTypingEffect() {
+    if (typingStarted) return;
+    typingStarted = true;
+    typeEffect();
+  }
+  window.startTypingEffect = startTypingEffect;
+  window.triggerScrollReveal = triggerScrollReveal;
 
   /* --------------------------------------------------------------------------
      5. SCROLL PROGRESS BAR
@@ -509,41 +519,94 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* --------------------------------------------------------------------------
-     15. PROJECTS CAROUSEL (SWIPER INITIALIZATION)
+     15. PROJECTS CAROUSEL (SWIPER 3D ROTATE & COVERFLOW)
      -------------------------------------------------------------------------- */
   if (typeof Swiper !== 'undefined') {
-    const projectsSwiper = new Swiper('.projects-swiper', {
-      loop: true,
-      grabCursor: true,
-      spaceBetween: 24,
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: true,
-      },
-      navigation: {
-        nextEl: '.swiper-nav-next',
-        prevEl: '.swiper-nav-prev',
-      },
-      pagination: {
-        el: '.projects-swiper-pagination',
-        clickable: true,
-        dynamicBullets: false,
-      },
-      breakpoints: {
-        // Mobile layout
-        0: {
-          slidesPerView: 1,
-        },
-        // Tablet layout
-        768: {
-          slidesPerView: 2,
-        },
-        // Desktop layout
-        992: {
-          slidesPerView: 3,
-        }
+    let projectsSwiper = null;
+    let currentMode = 'coverflow';
+
+    function initProjectsSwiper(mode = 'coverflow') {
+      currentMode = mode;
+      
+      const swiperElem = document.querySelector('.projects-swiper');
+      if (!swiperElem) return;
+
+      if (projectsSwiper) {
+        projectsSwiper.destroy(true, true);
       }
+
+      // Add/remove layout classes on container
+      const container = document.querySelector('.projects-slider-container');
+      if (container) {
+        container.classList.remove('mode-coverflow', 'mode-cards', 'mode-carousel');
+        container.classList.add(`mode-${mode}`);
+      }
+
+      let config = {
+        loop: true,
+        grabCursor: true,
+        centeredSlides: mode === 'coverflow' || mode === 'cards',
+        autoplay: {
+          delay: 4500,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        },
+        navigation: {
+          nextEl: '.swiper-nav-next',
+          prevEl: '.swiper-nav-prev',
+        },
+        pagination: {
+          el: '.projects-swiper-pagination',
+          clickable: true,
+        },
+      };
+
+      if (mode === 'coverflow') {
+        config.effect = 'coverflow';
+        config.slidesPerView = 'auto';
+        config.coverflowEffect = {
+          rotate: 32,
+          stretch: 0,
+          depth: 260,
+          modifier: 1,
+          slideShadows: true,
+        };
+      } else if (mode === 'cards') {
+        config.effect = 'cards';
+        config.slidesPerView = 'auto';
+        config.cardsEffect = {
+          perSlideRotate: 6,
+          perSlideOffset: 14,
+          slideShadows: true,
+        };
+      } else {
+        config.effect = 'slide';
+        config.spaceBetween = 24;
+        config.breakpoints = {
+          0: { slidesPerView: 1 },
+          768: { slidesPerView: 2 },
+          992: { slidesPerView: 3 },
+        };
+      }
+
+      projectsSwiper = new Swiper('.projects-swiper', config);
+    }
+
+    // Initialize 3D Rotate Coverflow by default
+    initProjectsSwiper('coverflow');
+
+    // Attach mode switch event handlers
+    const switchBtns = document.querySelectorAll('.btn-mode-switch');
+    switchBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const mode = e.currentTarget.getAttribute('data-mode');
+        if (!mode || mode === currentMode) return;
+
+        switchBtns.forEach(b => b.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+
+        initProjectsSwiper(mode);
+      });
     });
   }
 });

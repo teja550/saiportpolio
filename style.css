@@ -9,36 +9,37 @@
    -------------------------------------------------------------------------- */
 :root {
   /* Common variables */
-  --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-secondary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --border-radius-lg: 18px;
-  --border-radius-md: 12px;
-  --border-radius-sm: 8px;
+  --font-primary: 'Outfit', 'Plus Jakarta Sans', 'Poppins', sans-serif;
+  --font-secondary: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --border-radius-lg: 22px;
+  --border-radius-md: 14px;
+  --border-radius-sm: 10px;
   --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-fast: all 0.2s ease;
   
-  /* Dark Theme Colors (Default) */
-  --bg-primary: #0F172A;
-  --bg-secondary: #1E293B;
-  --bg-glass: rgba(30, 41, 59, 0.45);
-  --bg-glass-inset: rgba(255, 255, 255, 0.02);
-  --border-glass: rgba(255, 255, 255, 0.08);
-  --border-glass-hover: rgba(255, 255, 255, 0.18);
+  /* Luxury Obsidian Dark Theme Colors (Default) */
+  --bg-primary: #040914;
+  --bg-secondary: #0a1324;
+  --bg-glass: rgba(10, 19, 36, 0.75);
+  --bg-glass-inset: rgba(255, 255, 255, 0.03);
+  --border-glass: rgba(0, 240, 255, 0.16);
+  --border-glass-hover: rgba(0, 240, 255, 0.45);
   --text-primary: #F8FAFC;
   --text-secondary: #94A3B8;
   --text-muted: #64748B;
-  --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 1px 1px 0 rgba(255, 255, 255, 0.05) inset;
-  --shadow-glow-primary: 0 0 30px rgba(37, 99, 235, 0.25);
-  --shadow-glow-secondary: 0 0 30px rgba(14, 165, 233, 0.25);
-  --shadow-glow-accent: 0 0 30px rgba(6, 182, 212, 0.25);
+  --shadow-premium: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 1px 1px 0 rgba(255, 255, 255, 0.12) inset;
+  --shadow-glow-primary: 0 0 35px rgba(0, 240, 255, 0.35);
+  --shadow-glow-secondary: 0 0 35px rgba(59, 130, 246, 0.35);
+  --shadow-glow-accent: 0 0 35px rgba(168, 85, 247, 0.35);
   
   /* Brand Gradients (Dark Theme) */
-  --color-primary: #2563EB;
-  --color-secondary: #0EA5E9;
-  --color-accent: #06B6D4;
-  --gradient-brand: linear-gradient(135deg, #2563EB 0%, #0EA5E9 50%, #06B6D4 100%);
-  --gradient-text: linear-gradient(135deg, #F8FAFC 30%, #94A3B8 100%);
-  --gradient-glow: radial-gradient(circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(37, 99, 235, 0.15) 0%, transparent 60%);
+  --color-primary: #00f0ff;
+  --color-secondary: #3b82f6;
+  --color-accent: #a855f7;
+  --gradient-brand: linear-gradient(135deg, #00f0ff 0%, #3b82f6 50%, #a855f7 100%);
+  --gradient-text: linear-gradient(135deg, #FFFFFF 30%, #00f0ff 100%);
+  --gradient-text-accent: linear-gradient(135deg, #00f0ff 0%, #3b82f6 50%, #a855f7 100%);
+  --gradient-glow: radial-gradient(circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(0, 240, 255, 0.2) 0%, transparent 60%);
 }
 
 /* Light Theme Variables Override */
@@ -533,36 +534,44 @@ body:not(.light-theme) .sun-icon { display: block; }
 }
 
 .badge-glow {
-  background: rgba(14, 165, 233, 0.08);
-  border: 1px solid rgba(14, 165, 233, 0.25);
-  color: var(--color-secondary);
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  color: #00f0ff;
   font-family: var(--font-primary);
-  font-weight: 500;
-  letter-spacing: 0.5px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
 }
 .animate-pulse {
   animation: pulsing 1.5s infinite;
 }
 @keyframes pulsing {
-  0% { transform: scale(0.95); opacity: 0.5; }
-  50% { transform: scale(1.1); opacity: 1; }
-  100% { transform: scale(0.95); opacity: 0.5; }
+  0% { transform: scale(0.95); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 1; color: #00f0ff; }
+  100% { transform: scale(0.95); opacity: 0.6; }
 }
 
 .hero-greeting {
   font-size: 1.5rem;
   letter-spacing: 1px;
+  color: #00f0ff;
 }
 .hero-name {
   font-family: var(--font-primary);
-  font-weight: 900;
+  font-weight: 800;
+  font-size: 3.5rem;
   letter-spacing: -1.5px;
+  background: linear-gradient(135deg, #FFFFFF 30%, #A5F3FC 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 20px rgba(0, 240, 255, 0.2));
 }
 
 /* Typing text */
 .hero-typing-wrap {
   font-family: var(--font-primary);
-  font-size: 1.75rem;
+  font-size: 1.85rem;
   min-height: 48px;
 }
 .static-txt {
@@ -571,7 +580,7 @@ body:not(.light-theme) .sun-icon { display: block; }
 }
 .typing-txt::after {
   content: '|';
-  color: var(--color-accent);
+  color: var(--color-primary);
   animation: cursorBlink 0.8s infinite;
 }
 @keyframes cursorBlink {
@@ -581,14 +590,15 @@ body:not(.light-theme) .sun-icon { display: block; }
 
 .hero-description {
   color: var(--text-secondary);
-  font-size: 1.1rem;
-  max-width: 600px;
+  font-size: 1.12rem;
+  max-width: 620px;
+  line-height: 1.7;
 }
 
 /* Social icons circles */
 .social-circle-link {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   background: var(--bg-glass);
   border: 1px solid var(--border-glass);
@@ -600,18 +610,18 @@ body:not(.light-theme) .sun-icon { display: block; }
   transition: var(--transition-smooth);
 }
 .social-circle-link:hover {
-  background: var(--color-primary);
+  background: rgba(0, 240, 255, 0.15);
   border-color: var(--color-primary);
-  color: #FFFFFF;
+  color: #00f0ff;
   transform: translateY(-4px);
-  box-shadow: var(--shadow-glow-primary);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
 }
 
 /* Right side Image block */
 .profile-image-wrapper {
   position: relative;
-  width: 320px;
-  height: 320px;
+  width: 330px;
+  height: 330px;
   z-index: 5;
 }
 .profile-img-card {
@@ -619,8 +629,8 @@ body:not(.light-theme) .sun-icon { display: block; }
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
-  border: 5px solid var(--border-glass);
-  box-shadow: var(--shadow-premium);
+  border: 3px solid rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 50px rgba(0, 240, 255, 0.35), inset 0 0 25px rgba(0, 240, 255, 0.2);
   background: var(--bg-secondary);
   transition: var(--transition-smooth);
 }
@@ -631,11 +641,11 @@ body:not(.light-theme) .sun-icon { display: block; }
   transition: transform 0.5s ease;
 }
 .profile-image-wrapper:hover .profile-img-card {
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-glow-primary);
+  border-color: #00f0ff;
+  box-shadow: 0 0 70px rgba(0, 240, 255, 0.6), inset 0 0 35px rgba(0, 240, 255, 0.3);
 }
 .profile-image-wrapper:hover .profile-image {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 /* Floating shape objects */
@@ -752,40 +762,118 @@ body:not(.light-theme) .sun-icon { display: block; }
   color: var(--text-primary);
 }
 
-.about-narrative-card {
-  background: var(--bg-glass);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border-glass);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-premium);
-}
-.narrative-heading {
-  font-weight: 700;
-}
-.narrative-text {
-  color: var(--text-secondary);
-  font-size: 1.05rem;
-  text-align: justify;
+.text-gradient-purple-cyan {
+  background: linear-gradient(135deg, #a855f7 0%, #00f0ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* --------------------------------------------------------------------------
-   13. SKILLS GRID & PROGRESS BARS
-   -------------------------------------------------------------------------- */
-.skill-category-card {
+.text-cyan { color: #00f0ff !important; }
+.text-purple { color: #a855f7 !important; }
+.text-pink { color: #ec4899 !important; }
+.text-orange { color: #f97316 !important; }
+
+/* Detail Icon Circle */
+.detail-icon-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Service Card (What I Do) */
+.service-card {
   background: var(--bg-glass);
   border: 1px solid var(--border-glass);
-  border-radius: var(--border-radius-lg);
+  border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-premium);
-  height: 100%;
   transition: var(--transition-smooth);
+  height: 100%;
 }
-.skill-category-card:hover {
-  border-color: var(--border-glass-hover);
+.service-card:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 240, 255, 0.2);
 }
-.category-title {
-  font-weight: 700;
+
+.service-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
   display: flex;
   align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.15);
+}
+
+/* 10 Tech Grid Badges */
+.tech-badges-grid {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tech-grid-card {
+  width: 92px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-premium);
+  transition: var(--transition-smooth);
+}
+.tech-grid-card:hover {
+  border-color: #00f0ff;
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 12px 25px rgba(0, 240, 255, 0.3);
+}
+.tech-grid-icon {
+  font-size: 1.8rem;
+}
+.tech-grid-name {
+  font-size: 0.8rem;
+  display: block;
+}
+
+/* Skill Category Pill Card */
+.skill-category-pill-card {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-premium);
+  transition: var(--transition-smooth);
+}
+.skill-category-pill-card:hover {
+  border-color: var(--border-glass-hover);
+  transform: translateY(-3px);
+}
+
+.fill-cyan { background: linear-gradient(90deg, #00f0ff, #3b82f6) !important; }
+.fill-purple { background: linear-gradient(90deg, #a855f7, #ec4899) !important; }
+.fill-teal { background: linear-gradient(90deg, #06b6d4, #00f0ff) !important; }
+
+/* 3D Contact Illustration Artwork */
+.contact-3d-wrapper {
+  position: relative;
+  max-width: 280px;
+  filter: drop-shadow(0 0 35px rgba(0, 240, 255, 0.35));
+}
+.contact-3d-img {
+  border-radius: 20px;
+}
+.animate-float-slow {
+  animation: floatSlow 5s infinite ease-in-out alternate;
+}
+@keyframes floatSlow {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-12px) rotate(2deg); }
 }
 
 .skill-progress-item {
@@ -962,13 +1050,60 @@ body.light-theme .progress-bar-wrap {
   color: var(--text-primary);
 }
 
+/* --------------------------------------------------------------------------
+   3D ROTATE & COVERFLOW CAROUSEL STYLES
+   -------------------------------------------------------------------------- */
+.project-view-switcher .btn-mode-switch {
+  background: var(--bg-glass-inset);
+  border: 1px solid var(--border-glass);
+  color: var(--text-secondary);
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 8px 18px;
+  border-radius: 30px;
+  backdrop-filter: blur(10px);
+  transition: var(--transition-smooth);
+}
+
+.project-view-switcher .btn-mode-switch:hover,
+.project-view-switcher .btn-mode-switch.active {
+  background: rgba(0, 240, 255, 0.15);
+  border-color: #00f0ff;
+  color: #00f0ff;
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Coverflow Slide Width & 3D Perspective */
+.projects-slider-container.mode-coverflow .projects-swiper .swiper-slide {
+  width: 380px;
+  max-width: 88vw;
+}
+
+.projects-slider-container.mode-coverflow .swiper-slide-active .project-card {
+  border-color: #00f0ff;
+  box-shadow: 0 0 50px rgba(0, 240, 255, 0.45), inset 0 0 25px rgba(0, 240, 255, 0.2);
+  transform: scale(1.05) translateY(-5px);
+}
+
+.projects-slider-container.mode-coverflow .swiper-slide-active .project-card-title {
+  color: #00f0ff;
+}
+
+/* 3D Stack Cards Mode */
+.projects-slider-container.mode-cards .projects-swiper .swiper-slide {
+  width: 360px;
+  max-width: 90vw;
+}
+
 /* Swiper Slider Integration Styles */
 .projects-slider-container {
   padding: 0 50px;
 }
 
 .projects-swiper {
-  padding: 20px 0 30px 0; /* Add vertical padding so hover translateY(-8px) and active box shadow aren't clipped */
+  padding: 30px 0 40px 0; /* Add vertical padding so 3D rotation and shadow aren't clipped */
   overflow: visible !important;
 }
 
@@ -976,6 +1111,7 @@ body.light-theme .progress-bar-wrap {
   height: auto; /* Flex height matching card siblings */
   display: flex;
   justify-content: center;
+  perspective: 1000px;
 }
 
 /* Custom Navigation Buttons */
@@ -1469,5 +1605,325 @@ body.light-theme .form-control-custom:not(:placeholder-shown) ~ .form-label-cust
   }
   .about-narrative-card, .luxury-contact-glass {
     padding: 25px !important;
+  }
+}
+
+/* ==========================================================================
+   20. CINEMATIC AI PORTAL INTRO STYLES
+   ========================================================================== */
+#intro-root {
+  position: relative;
+  z-index: 99999;
+}
+
+.intro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #071827;
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Glowing cyan leading edge trace on the sliding panel */
+.intro-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #00f0ff, #3b82f6, transparent);
+  box-shadow: -10px 0 35px #00f0ff, 0 0 50px #00f0ff;
+  pointer-events: none;
+}
+
+.intro-overlay.hidden {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* Interactive Mouse Background Glow */
+.intro-mouse-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 240, 255, 0.12) 0%, rgba(37, 99, 235, 0.05) 45%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Volumetric Light Rays Layer */
+.intro-volumetric-light {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 800px;
+  height: 800px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.15) 0%, rgba(14, 165, 233, 0.08) 40%, transparent 75%);
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Particles Canvas */
+.intro-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Main Content Container */
+.intro-content-wrap {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Glowing Circular AI Portal */
+.ai-portal-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  transform-style: preserve-3d;
+}
+
+/* Portal Outer Neon Cyan Ring */
+.portal-ring-outer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px dashed rgba(0, 240, 255, 0.7);
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.4), inset 0 0 20px rgba(0, 240, 255, 0.3);
+  will-change: transform;
+}
+
+/* Portal Middle Tech Ring */
+.portal-ring-mid {
+  position: absolute;
+  inset: 20px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(14, 165, 233, 0.5);
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
+  will-change: transform;
+}
+
+@keyframes spinCounterClockwise {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+/* Tech Nodes on Middle Ring */
+.portal-ring-mid::before, .portal-ring-mid::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #00f0ff;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #00f0ff;
+}
+.portal-ring-mid::before { top: -5px; left: 50%; transform: translateX(-50%); }
+.portal-ring-mid::after { bottom: -5px; left: 50%; transform: translateX(-50%); }
+
+/* SVG Progress/Loading Ring */
+.portal-svg-wrap {
+  position: absolute;
+  inset: 35px;
+  width: calc(100% - 70px);
+  height: calc(100% - 70px);
+  transform: rotate(-90deg);
+}
+
+.portal-svg-circle-bg {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 3;
+  fill: none;
+}
+
+.portal-svg-circle-progress {
+  stroke: #00f0ff;
+  stroke-width: 4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 690;
+  stroke-dashoffset: 690;
+  filter: drop-shadow(0 0 10px #00f0ff);
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Glass Core Disk */
+.portal-glass-core {
+  position: absolute;
+  inset: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(15, 30, 50, 0.8) 0%, rgba(7, 24, 39, 0.95) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(0, 240, 255, 0.35);
+  box-shadow: inset 0 0 30px rgba(0, 240, 255, 0.25), 0 10px 40px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Glass Sheen Glare Reflection */
+.portal-glass-glare {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 50%);
+  transform: rotate(25deg);
+  pointer-events: none;
+  animation: sweepGlare 8s ease-in-out infinite alternate;
+}
+
+@keyframes sweepGlare {
+  0% { transform: translateY(-20%) rotate(25deg); }
+  100% { transform: translateY(20%) rotate(25deg); }
+}
+
+/* Electric Energy Shockwave Burst Ring */
+.portal-energy-burst {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid #00f0ff;
+  box-shadow: 0 0 40px #00f0ff, inset 0 0 30px #00f0ff;
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+
+/* Center Logo (NST) */
+.portal-logo {
+  font-family: var(--font-primary);
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: 4px;
+  color: #FFFFFF;
+  text-shadow: 0 0 20px rgba(0, 240, 255, 0.8), 0 0 40px rgba(0, 240, 255, 0.5);
+  z-index: 5;
+  background: linear-gradient(180deg, #FFFFFF 30%, #A5F3FC 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Typography & Subtitle Text Below Portal */
+.intro-sub-tag {
+  font-family: var(--font-secondary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #00f0ff;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+}
+
+.intro-accent-line {
+  width: 60px;
+  height: 2.5px;
+  background: linear-gradient(90deg, transparent, #00f0ff, transparent);
+  margin: 0 auto 1.25rem auto;
+  box-shadow: 0 0 8px #00f0ff;
+}
+
+.intro-author-name {
+  font-family: var(--font-primary);
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.5px;
+  margin-bottom: 1.25rem;
+  background: linear-gradient(135deg, #FFFFFF 40%, #CBD5E1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Role Badges */
+.intro-roles-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.intro-role-badge {
+  font-family: var(--font-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #E2E8F0;
+  background: rgba(15, 30, 50, 0.65);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  padding: 6px 14px;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Speed Lines overlay during warp fly-in */
+.intro-warp-lines {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(0, 240, 255, 0.25) 80%, rgba(7, 24, 39, 0.95) 100%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* Hero Section Entrance Animations */
+.hero-text-col, .hero-img-col, .main-navbar {
+  will-change: transform, opacity;
+}
+
+/* Reduced Motion Mode Support */
+@media (prefers-reduced-motion: reduce) {
+  .portal-ring-outer, .portal-ring-mid, .intro-volumetric-light, .portal-glass-glare {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 575px) {
+  .ai-portal-container {
+    width: 260px;
+    height: 260px;
+  }
+  .portal-logo {
+    font-size: 2.2rem;
+  }
+  .intro-author-name {
+    font-size: 1.75rem;
+  }
+  .intro-sub-tag {
+    font-size: 0.75rem;
   }
 }
