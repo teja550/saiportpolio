@@ -522,91 +522,37 @@ document.addEventListener('DOMContentLoaded', () => {
      15. PROJECTS CAROUSEL (SWIPER 3D ROTATE & COVERFLOW)
      -------------------------------------------------------------------------- */
   if (typeof Swiper !== 'undefined') {
-    let projectsSwiper = null;
-    let currentMode = 'coverflow';
-
-    function initProjectsSwiper(mode = 'coverflow') {
-      currentMode = mode;
-      
-      const swiperElem = document.querySelector('.projects-swiper');
-      if (!swiperElem) return;
-
-      if (projectsSwiper) {
-        projectsSwiper.destroy(true, true);
-      }
-
-      // Add/remove layout classes on container
-      const container = document.querySelector('.projects-slider-container');
-      if (container) {
-        container.classList.remove('mode-coverflow', 'mode-cards', 'mode-carousel');
-        container.classList.add(`mode-${mode}`);
-      }
-
-      let config = {
-        loop: true,
-        grabCursor: true,
-        centeredSlides: mode === 'coverflow' || mode === 'cards',
-        autoplay: {
-          delay: 4500,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        },
-        navigation: {
-          nextEl: '.swiper-nav-next',
-          prevEl: '.swiper-nav-prev',
-        },
-        pagination: {
-          el: '.projects-swiper-pagination',
-          clickable: true,
-        },
-      };
-
-      if (mode === 'coverflow') {
-        config.effect = 'coverflow';
-        config.slidesPerView = 'auto';
-        config.coverflowEffect = {
-          rotate: 32,
-          stretch: 0,
-          depth: 260,
-          modifier: 1,
-          slideShadows: true,
-        };
-      } else if (mode === 'cards') {
-        config.effect = 'cards';
-        config.slidesPerView = 'auto';
-        config.cardsEffect = {
-          perSlideRotate: 6,
-          perSlideOffset: 14,
-          slideShadows: true,
-        };
-      } else {
-        config.effect = 'slide';
-        config.spaceBetween = 24;
-        config.breakpoints = {
-          0: { slidesPerView: 1 },
-          768: { slidesPerView: 2 },
-          992: { slidesPerView: 3 },
-        };
-      }
-
-      projectsSwiper = new Swiper('.projects-swiper', config);
+    const container = document.querySelector('.projects-slider-container');
+    if (container) {
+      container.classList.add('mode-coverflow');
     }
 
-    // Initialize 3D Rotate Coverflow by default
-    initProjectsSwiper('coverflow');
-
-    // Attach mode switch event handlers
-    const switchBtns = document.querySelectorAll('.btn-mode-switch');
-    switchBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const mode = e.currentTarget.getAttribute('data-mode');
-        if (!mode || mode === currentMode) return;
-
-        switchBtns.forEach(b => b.classList.remove('active'));
-        e.currentTarget.classList.add('active');
-
-        initProjectsSwiper(mode);
-      });
+    new Swiper('.projects-swiper', {
+      loop: true,
+      grabCursor: true,
+      centeredSlides: true,
+      effect: 'coverflow',
+      slidesPerView: 'auto',
+      coverflowEffect: {
+        rotate: 32,
+        stretch: 0,
+        depth: 260,
+        modifier: 1,
+        slideShadows: true,
+      },
+      autoplay: {
+        delay: 4500,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      },
+      navigation: {
+        nextEl: '.swiper-nav-next',
+        prevEl: '.swiper-nav-prev',
+      },
+      pagination: {
+        el: '.projects-swiper-pagination',
+        clickable: true,
+      },
     });
   }
 });
